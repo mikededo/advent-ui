@@ -1,12 +1,12 @@
 <script lang="ts">
     import type { Action } from 'svelte/action';
 
-    import { toast } from '@stack/ui';
-
     import type { Cell, Point } from './utils.svelte';
 
+    import { toast } from 'svelte-sonner';
+
     import { beforeNavigate } from '$app/navigation';
-    import { Button, Header, paddedContainerClasses, ShikiCode, SMWarning, Textarea, Timer } from '$lib/components';
+    import { Button, Header, ShikiCode, SMWarning, Textarea, Timer } from '$lib/components';
     import { BENCHMARK, DEFAULT_MAP, DEFAULT_MOVEMENTS } from '$lib/inputs/2024/input-15';
     import { matrixCanvasHelper } from '$lib/utils';
 
@@ -144,15 +144,15 @@ You can also generate a set of random movements with the button below.`;
     {/snippet}
 </Header>
 
-<section class={paddedContainerClasses('hidden md:block lg:py-6')}>
-    <h2 class="mt-4">Customize your input</h2>
-    <div bind:this={container} class="flex w-full flex-col items-center gap-2 md:flex-row">
-        <div style="--input-width: {mapWidth}%" class="input flex flex-col gap-2">
+<section class="hidden px-4 md:block">
+    <h2 class="mb-2 mt-4">Customize your input</h2>
+    <div class="flex w-full flex-col items-center gap-2 md:flex-row" bind:this={container}>
+        <div class="input flex flex-col gap-2" style="--input-width: {mapWidth}%">
             <Textarea
+                bind:ref={mapInput}
                 placeholder={DEFAULT_MAP}
                 rows={10}
                 title="Map"
-                bind:ref={mapInput}
             />
         </div>
         <div
@@ -160,15 +160,15 @@ You can also generate a set of random movements with the button below.`;
             use:useDraggable
         ></div>
         <div
-            style="--input-width: {100 - mapWidth}%"
             class="input col-span-2 flex flex-col gap-2"
+            style="--input-width: {100 - mapWidth}%"
             class:pointer-events-none={isDragging}
         >
             <Textarea
+                bind:ref={movementsInput}
                 placeholder={MOVEMENT_PLACEHOLDER}
                 rows={10}
                 title="Movement"
-                bind:ref={movementsInput}
             />
         </div>
     </div>
@@ -179,7 +179,7 @@ You can also generate a set of random movements with the button below.`;
     </p>
 </section>
 
-<section class={paddedContainerClasses('hidden md:block lg:py-6')}>
+<section class="hidden md:block">
     <header class="flex items-end justify-between">
         <h2 class="mb-0">Visualization</h2>
         <div class="flex items-center gap-1">

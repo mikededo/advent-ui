@@ -9,5 +9,5 @@
     ].reduce((style, [key, value]) => !value ? style : `${key}: ${value};${style}`, '');
 </script>
 
-<div aria-hidden="true" class={`v-grid-line ${props.class}`} style={style}></div>
+<div class={`v-grid-line ${props.class}`} style={style} aria-hidden="true"></div>
 

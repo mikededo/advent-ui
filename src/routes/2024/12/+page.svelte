@@ -1,7 +1,7 @@
 <script lang="ts">
     import { onMount } from 'svelte';
 
-    import { AnimatedNumber, Button, Header, paddedContainerClasses } from '$lib/components';
+    import { AnimatedNumber, Button, Header } from '$lib/components';
     import { sleep } from '$lib/utils';
 
     const MAX_INPUT = `NNNNNNNOOOAJJJJJJJJZZMMMMMMMMUMMUCCCSSS
@@ -50,7 +50,7 @@ MLLLLLLLLLKKKJJJJJRLHHHHHHEDDDDDDDDDDMM`
     const CONTAINER_ID = 'container';
     // Generate a list of tailwind classes background colors for the 600 value
     const COLORS = [
-        'bg-violet-400',
+        'bg-indigo-400',
         'bg-purple-400',
         'bg-fuchsia-400',
         'bg-pink-400',
@@ -256,7 +256,7 @@ MLLLLLLLLLKKKJJJJJRLHHHHHHEDDDDDDDDDDMM`
 <!-- TODO: Extract into custom component -->
 <svelte:head>
     <title>Visualization 12/2024</title>
-    <meta name="description" content="Solution to 12th problem" />
+    <meta content="Solution to 12th problem" name="description" />
 </svelte:head>
 
 <Header
@@ -272,10 +272,10 @@ MLLLLLLLLLKKKJJJJJRLHHHHHHEDDDDDDDDDDMM`
     {/snippet}
 </Header>
 
-<section class={paddedContainerClasses('lg:pt-6')}>
-    <h2 class="mt-4">Visualization</h2>
-    <div class="flex w-full items-center justify-between gap-8 font-semibold">
-        <p>Cost: <AnimatedNumber value={cost} /></p>
+<section>
+    <h2 class="mb-0 mt-4">Visualization</h2>
+    <div class="mb-2 flex w-full items-center justify-between gap-8 font-semibold">
+        <p class="my-0!">Cost: <AnimatedNumber value={cost} /></p>
         <Button
             disabled={running}
             onclick={onClick}
@@ -283,5 +283,5 @@ MLLLLLLLLLKKKJJJJJRLHHHHHHEDDDDDDDDDDMM`
             {running ? 'Running' : 'Solve'}
         </Button>
     </div>
-    <div id={CONTAINER_ID} class="mx-auto grid justify-center"></div>
+    <div class="mx-auto grid justify-center" id={CONTAINER_ID}></div>
 </section>

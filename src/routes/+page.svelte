@@ -1,7 +1,7 @@
 <script lang="ts">
     import { GithubIcon } from 'lucide-svelte';
 
-    import { paddedContainerClasses, YearSection } from '$lib/components';
+    import { YearSection } from '$lib/components';
     import { SOLUTIONS } from '$lib/data';
 </script>
 
@@ -9,7 +9,7 @@
     <title>AoC Visualizations - @mikededo</title>
 </svelte:head>
 
-<header class={paddedContainerClasses('lg:pb-6')}>
+<header>
     <nav>
         <a
             class="mb-2 flex items-center justify-end gap-2 text-sm text-[var(--tw-prose-headings)] no-underline"

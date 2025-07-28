@@ -3,8 +3,6 @@
 
     import { MoveLeftIcon } from 'lucide-svelte';
 
-    import { paddedContainerClasses } from './padded-container.svelte';
-
     type Props = {
         fileName: string;
         title: string;
@@ -17,10 +15,10 @@
     const { children, description, fileName, problemUrl, title, url }: Props = $props();
 </script>
 
-<header class={paddedContainerClasses('lg:pb-8')}>
-    <nav>
+<header>
+    <nav class="flex">
         <a
-            class="mb-2 flex items-center gap-2 text-sm text-[var(--tw-prose-headings)] no-underline"
+            class="not-prose mb-2 flex items-center gap-2 rounded-full px-3 py-1 text-sm font-medium text-[var(--tw-prose-headings)] no-underline transition-colors hover:bg-slate-200 dark:hover:bg-slate-900"
             href="/"
         >
             <MoveLeftIcon class="size-4" strokeWidth={2} />
