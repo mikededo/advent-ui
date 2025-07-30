@@ -227,4 +227,11 @@ export default antfu(
         }
       ]
     }
+  })
+  .override('antfu/svelte/rules', {
+    files: ['**/*.svelte.ts'],
+    rules: {
+      'style/indent': ['error', 2],
+      'svelte/indent': ['off']
+    }
   });

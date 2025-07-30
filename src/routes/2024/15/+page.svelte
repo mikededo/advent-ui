@@ -11,11 +11,11 @@
     import { matrixCanvasHelper } from '$lib/utils';
 
     import {
-        algorithmState,
-        CELL_COLORS,
-        CELL_SIZE,
-        CELL_TEXT_COLORS,
-        runSolver
+      algorithmState,
+      CELL_COLORS,
+      CELL_SIZE,
+      CELL_TEXT_COLORS,
+      runSolver
     } from './utils.svelte';
 
     const MOVEMENT_PLACEHOLDER = `Default movements are trimmed since the actual input is really long!
@@ -35,89 +35,89 @@ You can also generate a set of random movements with the button below.`;
     let movementsInput: HTMLTextAreaElement | undefined = $state();
 
     const generateInput = () => {
-        const container = document.getElementById(CONTAINER_ID) as HTMLCanvasElement | null;
-        if (!container) {
-            return;
+      const container = document.getElementById(CONTAINER_ID);
+      if (!container) {
+        return;
+      }
+
+      running = true;
+      let start: Point = [0, 0];
+      const input = (mapInput?.value ? mapInput.value : DEFAULT_MAP)
+        .trim()
+        .split('\n')
+        .map((line, i) => {
+          const res = line.split('');
+          const found = res.findIndex((c) => c === '@');
+          if (found > -1) {
+            start = [i, found];
+          }
+
+          return res;
+        }) as Cell[][];
+      const matrix = matrixCanvasHelper<Cell>({
+        options: {
+          cellColors: CELL_COLORS,
+          cellSize: CELL_SIZE,
+          cellTextColors: CELL_TEXT_COLORS,
+          input
+        },
+        root: container
+      });
+      if (!matrix) {
+        toast.error('Unable to render the matrix');
+        return;
+      }
+
+      const movements = (movementsInput?.value ? movementsInput.value : DEFAULT_MOVEMENTS)
+        .trim()
+        .split('\n')
+        .map((s) => s.split(''))
+        .flat();
+      matrix.renderMatrix({
+        onComplete: () => {
+          algorithmState.map = input;
+          algorithmState.movements = { executed: 0, left: movements.length };
+
+          startTimer = true;
+          runSolver(matrix, start, movements);
         }
-
-        running = true;
-        let start: Point = [0, 0];
-        const input = (mapInput?.value ? mapInput.value : DEFAULT_MAP)
-            .trim()
-            .split('\n')
-            .map((line, i) => {
-                const res = line.split('');
-                const found = res.findIndex((c) => c === '@');
-                if (found > -1) {
-                    start = [i, found];
-                }
-
-                return res;
-            }) as Cell[][];
-        const matrix = matrixCanvasHelper<Cell>({
-            options: {
-                cellColors: CELL_COLORS,
-                cellSize: CELL_SIZE,
-                cellTextColors: CELL_TEXT_COLORS,
-                input
-            },
-            root: container
-        });
-        if (!matrix) {
-            toast.error('Unable to render the matrix');
-            return;
-        }
-
-        const movements = (movementsInput?.value ? movementsInput.value : DEFAULT_MOVEMENTS)
-            .trim()
-            .split('\n')
-            .map((s) => s.split(''))
-            .flat();
-        matrix.renderMatrix({
-            onComplete: () => {
-                algorithmState.map = input;
-                algorithmState.movements = { executed: 0, left: movements.length };
-
-                startTimer = true;
-                runSolver(matrix, start, movements);
-            }
-        });
+      });
     };
 
     const useDraggable: Action<HTMLDivElement> = (node) => {
-        node.addEventListener('mousedown', () => {
-            isDragging = true;
-        });
+      node.addEventListener('mousedown', () => {
+        isDragging = true;
+      });
 
-        const onMouseUp = () => {
-            if (isDragging) {
-                isDragging = false;
-            }
-        };
+      const onMouseUp = () => {
+        if (isDragging) {
+          isDragging = false;
+        }
+      };
 
-        const onMouseMove = (e: MouseEvent) => {
-            if (isDragging && container) {
-                const { width, x } = container.getBoundingClientRect();
-                const relativeX = e.clientX - x;
-                draggablePosition = Math.min(Math.max((relativeX / width) * 100, 25), 75);
-            }
-        };
+      const onMouseMove = (e: MouseEvent) => {
+        if (isDragging && container) {
+          const { width, x } = container.getBoundingClientRect();
+          const relativeX = e.clientX - x;
+          draggablePosition = Math.min(Math.max((relativeX / width) * 100, 25), 75);
+        }
+      };
 
-        document.addEventListener('mousemove', onMouseMove);
-        document.addEventListener('mouseup', onMouseUp);
+      document.addEventListener('mousemove', onMouseMove);
+      document.addEventListener('mouseup', onMouseUp);
 
-        return {
-            destroy: () => {
-                document.removeEventListener('mousemove', onMouseMove);
-                document.removeEventListener('mouseup', onMouseUp);
-            }
-        };
+      return {
+        destroy: () => {
+          document.removeEventListener('mousemove', onMouseMove);
+          document.removeEventListener('mouseup', onMouseUp);
+        }
+      };
     };
 
     beforeNavigate(() => {
-        running = false;
-        algorithmState.cancel = true;
-        algorithmState.movements = { executed: 0, left: 0 };
+      running = false;
+      algorithmState.cancel = true;
+      algorithmState.movements = { executed: 0, left: 0 };
     });
 </script>
 

@@ -7,16 +7,27 @@ type RenderMatrixArgs = {
   onComplete?: () => void;
 };
 
+type FillTextPos<Cell extends string> = {
+  cell: Cell;
+  x: number;
+  y: number;
+  drawOptions?: Partial<
+    { bgFillStyle: CanvasRenderingContext2D['fillStyle'] } &
+    Pick<CanvasRenderingContext2D, 'fillStyle' | 'font' | 'textAlign' | 'textBaseline'>
+  >;
+  progress?: number;
+};
+
 type MatrixCanvasHelperArgs<Cell extends string> = {
   options: {
     cellSize: number;
     input: Cell[][];
-    cellColors: Record<Cell, string>;
-    cellTextColors: Record<Cell, string>;
+    cellColors: Record<Cell, string> | string;
+    cellTextColors: Record<Cell, string> | string;
   };
   root: HTMLElement;
 };
-export type MatrixCanvasHelper<Cell extends string> = NonNullable<ReturnType<typeof matrixCanvasHelper<Cell>>>;
+export type MatrixCanvasHelper<Cell extends string = string> = NonNullable<ReturnType<typeof matrixCanvasHelper<Cell>>>;
 
 export const matrixCanvasHelper = <Cell extends string>(
   { options, root }: MatrixCanvasHelperArgs<Cell>
@@ -49,20 +60,28 @@ export const matrixCanvasHelper = <Cell extends string>(
 
   const fillRect = (
     ctx: CanvasRenderingContext2D,
-    x: number,
-    y: number,
-    cell: Cell,
-    progress = 100
+    {
+      cell,
+      drawOptions = {},
+      progress = 100,
+      x,
+      y
+    }: FillTextPos<Cell>
   ) => {
     const { cellColors, cellTextColors } = options;
     const rectX = y * cellSize;
     const rectY = x * cellSize;
 
-    ctx.fillStyle = `rgba(${hexToRgb(cellColors[cell])}, ${(progress / 100)})`;
+    const fillColor = typeof cellColors === 'string' ? cellColors : cellColors[cell];
+    const textColor = typeof cellTextColors === 'string' ? cellTextColors : cellTextColors[cell];
+
+    ctx.fillStyle = drawOptions.bgFillStyle ?? `rgba(${hexToRgb(fillColor)}, ${(progress / 100)})`;
     ctx.fillRect(rectX, rectY, cellSize, cellSize);
-    ctx.font = '12px "IBM Plex Mono"';
-    ctx.fillStyle = cellTextColors[cell];
-    ctx.fillText(cell, rectX + 4, rectY + 12);
+    ctx.font = drawOptions.font ?? '12px "IBM Plex Mono"';
+    ctx.textAlign = drawOptions.textAlign ?? 'center';
+    ctx.textBaseline = drawOptions.textBaseline ?? 'middle';
+    ctx.fillStyle = drawOptions.fillStyle ?? textColor;
+    ctx.fillText(cell, rectX + cellSize / 2, rectY + cellSize / 2);
   };
 
   const renderMatrix = (options: RenderMatrixArgs = {}) => {
@@ -86,10 +105,9 @@ export const matrixCanvasHelper = <Cell extends string>(
 
       renderingState.forEach((state) => {
         const { delay, progress, x, y } = state;
-        const cell = input[x][y];
 
         if (state.progress >= 0) {
-          fillRect(ctx, x, y, cell, progress);
+          fillRect(ctx, { cell: input[x][y], progress, x, y });
         }
 
         if (progress < 100) {
@@ -117,8 +135,8 @@ export const matrixCanvasHelper = <Cell extends string>(
 
   return {
     ctx,
-    fillRect: (x: number, y: number, cell: Cell) => {
-      fillRect(ctx, x, y, cell);
+    fillRect: (args: FillTextPos<Cell>) => {
+      fillRect(ctx, args);
     },
     renderMatrix
   };

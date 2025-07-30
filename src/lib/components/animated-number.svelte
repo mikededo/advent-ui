@@ -3,19 +3,19 @@
     import { Tween } from 'svelte/motion';
 
     type Props = {
-        value: number;
-        duration?: number;
-        format?: (value: number) => number | string;
+      value: number;
+      duration?: number;
+      format?: (value: number) => number | string;
     };
 
     const {
-        format = (value) => Math.round(value),
-        value = 0
+      format = (value) => Math.round(value),
+      value = 0
     }: Props = $props();
     const animatedValue = new Tween(value, { duration: 100, easing: quadInOut });
 
     $effect(() => {
-        animatedValue.set(value);
+      animatedValue.set(value);
     });
 
 </script>

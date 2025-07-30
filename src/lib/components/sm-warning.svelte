@@ -2,7 +2,7 @@
     import Banner from './banner.svelte';
 
     type Props = {
-        notImplemented: boolean;
+      notImplemented: boolean;
     };
     const { notImplemented }: Props = $props();
 </script>

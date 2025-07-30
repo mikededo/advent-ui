@@ -97,8 +97,8 @@ export const runSolver = async (
     switch (nextCell) {
       case '#': continue;
       case '.':
-        matrix.fillRect(nextPos[1], nextPos[0], '@');
-        matrix.fillRect(player[1], player[0], '.');
+        matrix.fillRect({ cell: '@', x: nextPos[1], y: nextPos[0] });
+        matrix.fillRect({ cell: '.', x: player[1], y: player[0] });
 
         player = nextPos;
         break;
@@ -125,8 +125,8 @@ export const runSolver = async (
           successors.forEach((pos, i, successors) => {
             const isLast = i === successors.length - 1;
             const prev = successors[i + 1] ?? nextPos;
-            matrix.fillRect(pos[1], pos[0], 'O');
-            matrix.fillRect(prev[1], prev[0], isLast ? '@' : '.');
+            matrix.fillRect({ cell: 'O', x: pos[1], y: pos[0] });
+            matrix.fillRect({ cell: isLast ? '@' : '.', x: prev[1], y: prev[0] });
 
             // Apply the same to the map
             algorithmState.map[pos[0]][pos[1]] = 'O';
@@ -137,7 +137,7 @@ export const runSolver = async (
           }
 
           // Update previous cell
-          matrix.fillRect(player[1], player[0], '.');
+          matrix.fillRect({ cell: '.', x: player[1], y: player[0] });
           player = nextPos;
         }
         break;
