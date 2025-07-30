@@ -37,10 +37,12 @@
         Designed and developed by
         <a
             href="https://github.com/mikededo"
-            rel="external"
+            rel="nofollow"
             target="_blank"
         >
             @mikededo
         </a>
+        &centerdot;
+        <a href="https://mikededo.com" rel="nofollow" target="_blank">mikededo.com</a>
     </p>
 </footer>
