@@ -4,12 +4,12 @@
     import { MoveLeftIcon } from 'lucide-svelte';
 
     type Props = {
-      fileName: string;
-      title: string;
-      url: string;
-      description: Snippet;
-      problemUrl: string;
-      children?: Snippet;
+        fileName: string;
+        title: string;
+        url: string;
+        description: Snippet;
+        problemUrl: string;
+        children?: Snippet;
     };
 
     const { children, description, fileName, problemUrl, title, url }: Props = $props();

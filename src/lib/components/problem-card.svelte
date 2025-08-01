@@ -2,7 +2,7 @@
     import type { SolvedVisualization } from '$lib/utils';
 
     type Props = {
-      problem: SolvedVisualization;
+        problem: SolvedVisualization;
     };
     const { problem }: Props = $props();
     const { description, href, tags, title } = problem;

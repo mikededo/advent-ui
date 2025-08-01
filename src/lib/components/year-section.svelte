@@ -4,9 +4,9 @@
     import ProblemCard from './problem-card.svelte';
 
     type Props = {
-      days: Year;
-      year: number;
-      position: number;
+        days: Year;
+        year: number;
+        position: number;
     };
     const { days, position, year }: Props = $props();
 

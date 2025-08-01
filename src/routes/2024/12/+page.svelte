@@ -1,21 +1,21 @@
 <script lang="ts">
     import { onMount } from 'svelte';
 
-    import { AnimatedNumber, Button, Header } from '$lib/components';
+    import { AnimatedNumber, Button, Header, SMWarning } from '$lib/components';
 
     import {
-      algorithmState,
-      CONTAINER_ID,
-      generateInput,
-      start
+        algorithmState,
+        CONTAINER_ID,
+        generateInput,
+        start
     } from './utils.svelte';
 
     const onClick = () => {
-      start();
+        start();
     };
 
     onMount(() => {
-      generateInput();
+        generateInput();
     });
 </script>
 
@@ -31,6 +31,12 @@
     url="https://github.com/mikededo/advent/blob/main/aoc-24/src/solutions/d12.rs"
 >
     {#snippet description()}
+        <SMWarning
+            class="md:block min-[1024px]:!hidden"
+            notImplementedClass="mb-2"
+            recommendedMinWidth={1024}
+            notImplemented
+        />
         <p>
             This problem is solved using a flood fill algorithm. The algorithm
             works by starting at a given point and then checking all the points
