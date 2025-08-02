@@ -20,8 +20,8 @@
 </script>
 
 <svelte:head>
-    <title>Visualization 12/2024 v2</title>
-    <meta content="Solution to 12th problem (Canvas version)" name="description" />
+    <title>Visualization 12/2024</title>
+    <meta content="Solution to 12th problem" name="description" />
 </svelte:head>
 
 <Header
@@ -45,11 +45,6 @@
             If they are not, then they are added to a new group and the
             algorithm continues. This process continues until all the points
             are checked and added to a group.
-        </p>
-        <p class="mt-2 text-sm text-gray-600">
-            <strong>Canvas Version:</strong> This version uses the Canvas API
-            for improved rendering performance compared to the DOM-based
-            approach.
         </p>
     {/snippet}
 </Header>
