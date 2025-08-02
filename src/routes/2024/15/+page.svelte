@@ -1,7 +1,7 @@
 <script lang="ts">
     import type { Action } from 'svelte/action';
 
-    import type { Cell, Point } from './utils.svelte';
+    import type { Cell, Point } from './solver.svelte';
 
     import { toast } from 'svelte-sonner';
 
@@ -16,7 +16,7 @@
         CELL_SIZE,
         CELL_TEXT_COLORS,
         runSolver
-    } from './utils.svelte';
+    } from './solver.svelte';
 
     const MOVEMENT_PLACEHOLDER = `Default movements are trimmed since the actual input is really long!
 Movements consist of: <^v>...

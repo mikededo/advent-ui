@@ -8,7 +8,7 @@
         CONTAINER_ID,
         generateInput,
         start
-    } from './utils.svelte';
+    } from './solver.svelte';
 
     const onClick = () => {
         start();
