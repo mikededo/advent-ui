@@ -1,4 +1,6 @@
 declare global {
+  type Point = [number, number];
+
   namespace App {
     // interface Locals {}
     // interface PageData {}

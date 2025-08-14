@@ -1,7 +1,7 @@
 <script lang="ts">
     import type { Action } from 'svelte/action';
 
-    import type { Cell, Point } from './solver.svelte';
+    import type { Cell } from './solver.svelte';
 
     import { toast } from 'svelte-sonner';
 

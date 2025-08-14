@@ -15,5 +15,13 @@ export const SOLUTIONS: Record<number, Year> = {
       description: 'Analyze the robot\'s actions while accounting for obstacles and blocked movements on a map.',
       tags: ['Algorithm']
     }
+  },
+  2023: {
+    10: {
+      href: '/2023/10',
+      title: '10th',
+      description: 'Trace a continuous loop through a grid of interconnected pipe segments, identifying the loop\'s path and determining distances and enclosed areas.',
+      tags: ['Algorithm']
+    }
   }
 };

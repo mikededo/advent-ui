@@ -12,7 +12,6 @@ import type { MatrixCanvasHelper } from '$lib/utils';
 
 import { sleep } from '$lib/utils';
 
-export type Point = [number, number];
 export const CELL_SIZE = 16;
 export const CELL_COLORS = {
   '.': '#f1f5f9',

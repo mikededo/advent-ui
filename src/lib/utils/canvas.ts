@@ -1,20 +1,20 @@
 import { hexToRgb } from './colors';
 
-export type Point = [number, number];
-
 /** Method arguments */
 type RenderMatrixArgs = {
+  signal?: AbortSignal;
   onComplete?: () => void;
 };
+type DrawOptions = Partial<
+  { bgFillStyle: CanvasRenderingContext2D['fillStyle'] } &
+  Pick<CanvasRenderingContext2D, 'fillStyle' | 'font' | 'textAlign' | 'textBaseline'>
+>;
 
 type FillTextPos<Cell extends string> = {
   cell: Cell;
   x: number;
   y: number;
-  drawOptions?: Partial<
-    { bgFillStyle: CanvasRenderingContext2D['fillStyle'] } &
-    Pick<CanvasRenderingContext2D, 'fillStyle' | 'font' | 'textAlign' | 'textBaseline'>
-  >;
+  drawOptions?: DrawOptions;
   progress?: number;
 };
 
@@ -24,15 +24,18 @@ type MatrixCanvasHelperArgs<Cell extends string> = {
     input: Cell[][];
     cellColors: Record<Cell, string> | string;
     cellTextColors: Record<Cell, string> | string;
+    drawOptions?: DrawOptions;
   };
   root: HTMLElement;
 };
 export type MatrixCanvasHelper<Cell extends string = string> = NonNullable<ReturnType<typeof matrixCanvasHelper<Cell>>>;
 
+export const getFontStyle = (size: number) => `${size}px "IBM Plex Mono", monospace`;
+
 export const matrixCanvasHelper = <Cell extends string>(
   { options, root }: MatrixCanvasHelperArgs<Cell>
 ) => {
-  const { cellSize, input } = options;
+  const { cellSize, drawOptions: rootDrawOptions = {}, input } = options;
 
   // Create and render the canvas
   const canvas = document.createElement('canvas');
@@ -62,7 +65,7 @@ export const matrixCanvasHelper = <Cell extends string>(
     ctx: CanvasRenderingContext2D,
     {
       cell,
-      drawOptions = {},
+      drawOptions = rootDrawOptions,
       progress = 100,
       x,
       y
@@ -77,7 +80,7 @@ export const matrixCanvasHelper = <Cell extends string>(
 
     ctx.fillStyle = drawOptions.bgFillStyle ?? `rgba(${hexToRgb(fillColor)}, ${(progress / 100)})`;
     ctx.fillRect(rectX, rectY, cellSize, cellSize);
-    ctx.font = drawOptions.font ?? '12px "IBM Plex Mono"';
+    ctx.font = drawOptions.font ?? getFontStyle(cellSize * 0.75);
     ctx.textAlign = drawOptions.textAlign ?? 'center';
     ctx.textBaseline = drawOptions.textBaseline ?? 'middle';
     ctx.fillStyle = drawOptions.fillStyle ?? textColor;
@@ -101,6 +104,10 @@ export const matrixCanvasHelper = <Cell extends string>(
 
     const startTime = Date.now();
     const animateCells = () => {
+      if (options.signal?.aborted) {
+        return;
+      }
+
       ctx.clearRect(0, 0, canvas.width / dpr, canvas.height / dpr);
 
       renderingState.forEach((state) => {
