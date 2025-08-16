@@ -34,54 +34,57 @@ const data: Data = {
   maxRows: 0
 };
 
-type State = { running: boolean; count: number; startPoint: Point };
+type State = {
+  /**
+   * Returns the amount of steps done, used for A solution
+   */
+  aStats: number;
+  running: boolean;
+  variant: 'a' | 'b' | undefined;
+  startPoint: Point;
+  /**
+   * Contains the values that are used to display information for the b
+   * solution
+   */
+  bStats: {
+    inside: number;
+    surface: number;
+    loopLen: number;
+  } | undefined;
+};
 export const algorithmState: State = $state({
-  count: 0,
+  aStats: 0,
+  bStats: undefined,
   running: false,
-  startPoint: [INVALID_COORD, INVALID_COORD]
+  startPoint: [INVALID_COORD, INVALID_COORD],
+  variant: undefined
 });
 
 const findNextSuitable = ([x, y]: Point): Result<Point, void> => {
   const mat = data.input;
 
-  if (x + 1 < mat.length && y < mat[x + 1].length && !['-', '.', '7', 'F'].includes(mat[x + 1][y])) {
+  if (x + 1 < mat.length && y < mat[x + 1].length && !['—', '·', '7', 'F'].includes(mat[x + 1][y])) {
     return ok([x + 1, y]);
-  } else if (y > 0 && y - 1 < mat[x].length && !['.', '|', '7', 'J'].includes(mat[x][y - 1])) {
+  } else if (y > 0 && y - 1 < mat[x].length && !['·', '|', '7', 'J'].includes(mat[x][y - 1])) {
     return ok([x, y - 1]);
-  } else if (y + 1 < mat[x].length && !['.', '|', 'F', 'L'].includes(mat[x][y + 1])) {
+  } else if (y + 1 < mat[x].length && !['·', '|', 'F', 'L'].includes(mat[x][y + 1])) {
     return ok([x, y + 1]);
-  } else if (x > 0 && y < mat[x - 1].length && !['-', '.', 'J', 'L'].includes(mat[x - 1][y])) {
+  } else if (x > 0 && y < mat[x - 1].length && !['—', '·', 'J', 'L'].includes(mat[x - 1][y])) {
     return ok([x - 1, y]);
   }
 
   return err();
 };
 
-type StartArgs = {
-  delay?: number;
-};
-export const start = async (args: StartArgs = {}) => {
-  data.controllers.exec = new AbortController();
-  algorithmState.running = true;
-
-  const [x, y] = algorithmState.startPoint;
-  if (x === INVALID_COORD || y === INVALID_COORD) {
-    toast.error('Start point not found');
-    return;
-  }
-
+const findLoop = async (startX: number, startY: number, defaultDelay?: number): Promise<Result<Point[], string>> => {
   const nextSuitable = findNextSuitable(algorithmState.startPoint);
   if (nextSuitable.isErr()) {
-    toast.error(`No suitable point found -> (x: ${x}, y: ${y})`);
-    return;
+    return err(`No suitable point found -> (x: ${startX}, y: ${startY})`);
   }
 
-  const visited: Point[] = [
-    [algorithmState.startPoint[0], algorithmState.startPoint[1]],
-    nextSuitable.value
-  ];
-
+  const visited: Point[] = [[startX, startY], nextSuitable.value];
   let stop = false;
+
   do {
     const [cx, cy] = visited[visited.length - 1];
     const [px, py] = visited[visited.length - 2];
@@ -137,25 +140,77 @@ export const start = async (args: StartArgs = {}) => {
         stop = true;
         break;
       default:
-        toast.error(`Unknown cell type: ${c} at (${cx}, ${cy})`);
-        return;
+        return err(`Unknown cell type: ${c} at (${cx}, ${cy})`);
     }
 
-    algorithmState.count += 1;
-    data.matrix!.fillRect({
-      cell: c,
-      drawOptions: { bgFillStyle: COLOR_MAP.blue },
-      x: cx,
-      y: cy
-    });
-    visited.push(next);
+    if (c !== 'S') {
+      algorithmState.aStats += 1;
+      data.matrix!.fillRect({
+        cell: c,
+        drawOptions: { bgFillStyle: COLOR_MAP.blue },
+        x: cx,
+        y: cy
+      });
+      visited.push(next);
 
-    const delay = args.delay ?? (data.input.length > 50 ? 10 : 50);
-    if (delay > 0) {
-      await sleep(delay, { signal: data.controllers.exec!.signal });
+      const delay = defaultDelay ?? (data.input.length > 50 ? 10 : 50);
+      if (delay > 0) {
+        await sleep(delay, { signal: data.controllers.exec!.signal });
+      }
     }
     // We also keep track of algorhthmState.running to allow stopping the execution
   } while (!stop && algorithmState.running);
+
+  return ok(visited);
+};
+
+const calculatePointsInside = (loop: Point[]): Result<Required<State['bStats']>, string> => {
+  const surface = Math.abs(
+    loop.reduce((sum, [x1, y1], i) => {
+      // Wrap if last item
+      const [x2, y2] = loop[(i + 1) % loop.length];
+      return sum + (x1 * y2 - x2 * y1);
+    }, 0)
+  ) / 2;
+
+  return ok({
+    inside: Math.ceil(surface - (loop.length / 2) + 1),
+    loopLen: loop.length,
+    surface
+  });
+};
+
+type StartArgs = {
+  delay?: number;
+  solution?: State['variant'];
+};
+export const start = async (args: StartArgs = {}) => {
+  data.controllers.exec = new AbortController();
+  algorithmState.variant = args.solution ?? 'a';
+  algorithmState.running = true;
+
+  const [x, y] = algorithmState.startPoint;
+  if (x === INVALID_COORD || y === INVALID_COORD) {
+    toast.error('Start point not found');
+    return;
+  }
+
+  const result = await findLoop(x, y, args.delay);
+  if (result.isErr()) {
+    toast.error(result.error);
+    return;
+  }
+
+  if (algorithmState.variant === 'b') {
+    const b = calculatePointsInside(result.value);
+    if (b.isErr()) {
+      toast.error(b.error);
+      algorithmState.running = false;
+      return;
+    }
+
+    algorithmState.bStats = b.value;
+  }
 
   algorithmState.running = false;
 };
@@ -237,7 +292,9 @@ export const reset = () => {
   data.controllers = {};
 
   // Clear state
-  algorithmState.count = 0;
+  algorithmState.variant = undefined;
+  algorithmState.aStats = 0;
+  algorithmState.bStats = undefined;
   algorithmState.running = false;
   algorithmState.startPoint = [INVALID_COORD, INVALID_COORD];
 };

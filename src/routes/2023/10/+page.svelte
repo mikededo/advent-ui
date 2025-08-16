@@ -10,7 +10,11 @@
         SMWarning,
         Textarea
     } from '$lib/components';
-    import { BENCHMARK_A, DEFAULT_MAP } from '$lib/inputs/2023/input-10';
+    import {
+        BENCHMARK_A,
+        BENCHMARK_B,
+        DEFAULT_MAP
+    } from '$lib/inputs/2023/input-10';
     import { COLOR_MAP } from '$lib/utils';
 
     import {
@@ -24,11 +28,11 @@
     let shouldReset = false;
 
     let input = $state('');
-    let delay = $state(0);
+    let delay = $state(30);
 
-    const onSolve = () => {
+    const onSolve = (solution: 'a' | 'b') => () => {
         if (input.trim() === '' && !shouldReset) {
-            start({ delay });
+            start({ delay, solution });
             shouldReset = true;
             return;
         }
@@ -41,7 +45,7 @@
 
         generateInput(input, {
             onComplete: () => {
-                start({ delay });
+                start({ delay, solution });
 
                 shouldReset = true;
             }
@@ -59,7 +63,7 @@
 </svelte:head>
 
 <Header
-    fileName="d12.rs"
+    fileName="d10.rs"
     problemUrl="https://adventofcode.com/2023/day/10"
     title="Solution to the 10th problem"
     url="https://github.com/mikededo/advent/blob/main/aoc-23/src/solutions/day10.rs"
@@ -82,18 +86,41 @@
                 it ends in the starting position.
             </p>
             <p>
-                Complexity: building connectivity and traversing the loop are
-                both linear in the number of grid cells
-                <code>(O(R * C))</code>; memory use is likewise linear for
-                storing visited tiles. Benchmark is for a <code>140x140</code>
-                matrix.
+                Complexity: it's required to find the connectivity and
+                traversing the loop, which are both linear in the number of
+                grid cells <code>(O(R * C))</code>; memory use is likewise
+                linear for storing visited tiles. Benchmark is for a
+                <code>140x140</code> matrix.
             </p>
             <ShikiCode code={BENCHMARK_A} options={{ lang: 'shellscript' }} />
         </section>
 
-        <!-- <section> -->
-        <!-- <h2>Problem B</h2> -->
-        <!-- </section> -->
+        <section>
+            <h2>Problem B</h2>
+            <p>
+                For part B, most of the code is the same, as traversin the loop
+                is requied. When the loop is known, the egdes are found whic
+                hare they used to know the loops area with the
+                <a href="https://en.wikipedia.org/wiki/Shoelace_formula" target="_blank"> shoelace formula</a>.
+                Knowing the surface, the
+                <a href="https://en.wikipedia.org/wiki/Pick%27s_theorem" target="_blank">Pick's theorem</a>
+                is applied, giving us the number of tiles inside the loop.
+            </p>
+            <p>
+                In order to make the visualization more appealing, once the
+                solution is found, the points inside the polygon are calculated
+                by doing a <em>point in polygon test</em>, which basically
+                implies an additional iteration to the entire grid
+                (<code>O(m * n)</code>).
+            </p>
+            <p>
+                Complexity: the same as for part A, but with an additional
+                parameter when traversing the loop to calculate the edges. The
+                memory use is also linear, as the edges are stored in a vector.
+                Benchmark is for a <code>140x140</code> matrix.
+            </p>
+            <ShikiCode code={BENCHMARK_B} options={{ lang: 'shellscript' }} />
+        </section>
     {/snippet}
 </Header>
 
@@ -121,16 +148,16 @@
     <header class="flex items-end justify-between">
         <h2 class="mb-0">Visualization</h2>
         <div class="flex items-center gap-1">
-            <Button onclick={onSolve}>
+            <Button onclick={onSolve('a')}>
                 {algorithmState.running ? 'Running' : 'Solve A'}
             </Button>
-            <Button disabled onclick={onSolve}>
+            <Button onclick={onSolve('b')}>
                 {algorithmState.running ? 'Running' : 'Solve B'}
             </Button>
         </div>
     </header>
 
-    <div class="mb-4 space-y-3">
+    <div class="mb-2 space-y-1">
         <p class="font-semibold">Configuration</p>
         <div class="grid grid-flow-row grid-cols-4">
             <div class="w-full max-w-xs space-y-1">
@@ -151,18 +178,43 @@
     </div>
 
     <div class="flex gap-2">
-        <div class="flex items-center gap-0.5">
-            <p class="font-semibold">
-                Further steps: <AnimatedNumber value={Math.max(0, (algorithmState.count - 1) / 2)} />
-            </p>
-            {#if algorithmState.count > 1}
-                <span>&centerdot;</span>
-                <p class="italic text-slate-500">
-                    ({algorithmState.count} - 1) / 2
-                </p>
+        <div class="flex items-center gap-1">
+            {#if algorithmState.variant === 'b'}
+                {@render b_state()}
+            {:else}
+                {@render a_state()}
             {/if}
         </div>
     </div>
 
     <div id={CONTAINER_ID}></div>
 </section>
+
+{#snippet a_state()}
+    <p class="font-semibold">
+        Further steps: <AnimatedNumber value={Math.max(0, (algorithmState.aStats - 1) / 2)} />
+    </p>
+    {#if algorithmState.aStats > 1}
+        <span>&centerdot;</span>
+        <p class="italic text-slate-500">
+            (<span title="Loop steps">{algorithmState.aStats}</span> - 1) / 2
+        </p>
+    {/if}
+{/snippet}
+
+{#snippet b_state()}
+    {@const { inside, loopLen, surface } = algorithmState.bStats ?? {}}
+    {#if algorithmState.running}
+        <p class="font-semibold">
+            Points inside: ...
+        </p>
+    {:else if inside}
+        <p class="font-semibold">
+            Points inside: <AnimatedNumber value={inside} />
+        </p>
+        <span>&centerdot;</span>
+        <p class="italic text-slate-500" title="Pick's theorem">
+            <span title="Surface">{surface}</span> - (<span title="Loop length">{loopLen}</span> / 2) + 1
+        </p>
+    {/if}
+{/snippet}

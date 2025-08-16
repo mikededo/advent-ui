@@ -12,7 +12,7 @@
     class="bg-background flex flex-col gap-1 rounded-lg border px-3 py-2 transition-all duration-200 hover:-translate-y-1 hover:border-indigo-300 hover:shadow-md hover:shadow-slate-100 md:px-3"
     {href}
 >
-    <p class="font-semibold">{title}</p>
+    <p class="my-0! font-semibold">{title}</p>
     <div class="text-sm">
         <!-- eslint-disable-next-line svelte/no-at-html-tags -->
         {@html description}
