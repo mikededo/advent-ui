@@ -122,6 +122,20 @@
             <ShikiCode code={BENCHMARK_B} options={{ lang: 'shellscript' }} />
         </section>
     {/snippet}
+
+    <section class="rounded-md bg-slate-100 px-4 py-2 text-sm">
+        <h2 class="mt-1!">Additional implementation</h2>
+        <p>
+            In order to make the visualization more appealing, once the
+            algorithm is found, the points inside the polygon are
+            calculated by ray-casting. This is done by checking each
+            point in the input, excluding the loop points, and checking
+            if the point is inside the loop. The points that are inside
+            are colored in
+            <span style="background-color: {COLOR_MAP.green}">green</span>,
+            marked with <code>I</code>.
+        </p>
+    </section>
 </Header>
 
 <section class="hidden px-4 md:block">
@@ -136,9 +150,9 @@
     </div>
     <p>
         Once the map is rendered, the start point will be rendered in
-        <span style="color: {COLOR_MAP.blue}">blue</span>,
+        <span style="background-color: {COLOR_MAP.indigo}">blue</span>,
         and the rest of the pipes in
-        <span style="color: {COLOR_MAP.gray}">gray</span>.
+        <span style="background-color: {COLOR_MAP.gray}">gray</span>.
         To have a better visualization, the <code>-</code> are replaced with <code>—</code>, and the <code>.</code>
         are replaced with <code>&centerdot;</code>.
     </p>

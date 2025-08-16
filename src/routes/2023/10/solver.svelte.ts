@@ -164,6 +164,50 @@ const findLoop = async (startX: number, startY: number, defaultDelay?: number): 
   return ok(visited);
 };
 
+// Ray-casting algorithm
+const isPointInsideLoop = (loop: Point[], [x, y]: Point): boolean => {
+  let inside = false;
+
+  for (let i = 0, j = loop.length - 1; i < loop.length; j = i++) {
+    const [xi, yi] = loop[i];
+    const [xj, yj] = loop[j];
+
+    if ((yi > y) !== (yj > y) && x < ((xj - xi) * (y - yi)) / (yj - yi) + xi) {
+      inside = !inside;
+    }
+  }
+
+  return inside;
+};
+
+const paintPointsInside = (loop: Point[]) => {
+  // TS check, if by any chance the matrix has been cleared
+  if (!data.matrix) {
+    return;
+  }
+
+  // All points that conform the loop should be skipped, using a Set for faster
+  // lookup, and we are mapping to string as using the Point would always
+  // return false
+  const loopSet = new Set(loop.map(([x, y]) => `${x}-${y}`));
+  data.input.forEach((row, x) => {
+    row.forEach((_, y) => {
+      const isLoopPoint = loopSet.has(`${x}-${y}`);
+      if (isPointInsideLoop(loop, [x, y]) && !isLoopPoint) {
+        data.matrix!.fillRect({
+          cell: 'I' as any,
+          drawOptions: {
+            bgFillStyle: COLOR_MAP.green,
+            fillStyle: COLOR_MAP.background
+          },
+          x,
+          y
+        });
+      }
+    });
+  });
+};
+
 const calculatePointsInside = (loop: Point[]): Result<Required<State['bStats']>, string> => {
   const surface = Math.abs(
     loop.reduce((sum, [x1, y1], i) => {
@@ -202,7 +246,8 @@ export const start = async (args: StartArgs = {}) => {
   }
 
   if (algorithmState.variant === 'b') {
-    const b = calculatePointsInside(result.value);
+    const loop = result.value;
+    const b = calculatePointsInside(loop);
     if (b.isErr()) {
       toast.error(b.error);
       algorithmState.running = false;
@@ -210,6 +255,8 @@ export const start = async (args: StartArgs = {}) => {
     }
 
     algorithmState.bStats = b.value;
+
+    paintPointsInside(loop);
   }
 
   algorithmState.running = false;
