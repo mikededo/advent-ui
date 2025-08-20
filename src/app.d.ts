@@ -1,5 +1,6 @@
 declare global {
   type Point = [number, number];
+  type ProblemVariant = 'a' | 'b';
 
   namespace App {
     // interface Locals {}

@@ -2,7 +2,7 @@ import type { MatrixCanvasHelper } from '$lib/utils';
 
 import { toast } from 'svelte-sonner';
 
-import { matrixCanvasHelper, sleep } from '$lib/utils';
+import { getColorList, matrixCanvasHelper, sleep } from '$lib/utils';
 
 const INPUT = `NNNNNNNOOOAJJJJJJJJZZMMMMMMMMUMMUCCCSSS
 NNNNNNNOOOJJJJJJJJJZZMMMMMMMMMMMUCCCSSS
@@ -46,27 +46,10 @@ LLLLLLLLLLKKKJJJJRLLHHHHHHHHHHHHHHFFDMV
 MLLLLLLLLLKKKJJJJJRLHHHHHHEDDDDDDDDDDMM`
   .split('\n')
   .map((line) => line.split(''));
+
+const COLOR_LIST = getColorList('background');
 const CELL_SIZE = 24;
-// Equivalent tailwind colors
-const COLORS = [
-  '#818cf8', // indigo-400
-  '#a78bfa', // purple-400
-  '#e879f9', // fuchsia-400
-  '#f472b6', // pink-400
-  '#fb7185', // rose-400
-  '#f87171', // red-400
-  '#fb923c', // orange-400
-  '#fbbf24', // amber-400
-  '#facc15', // yellow-400
-  '#a3e635', // lime-400
-  '#4ade80', // green-400
-  '#34d399', // emerald-400
-  '#2dd4bf', // teal-400
-  '#22d3ee', // cyan-400
-  '#0ea5e9', // sky-400
-  '#3b82f6', // blue-400
-  '#818cf8' // indigo-400
-];
+
 export const CONTAINER_ID = 'container';
 
 type Data = {
@@ -113,7 +96,7 @@ const drawCell = (x: number, y: number, colorIndex: number, withBorders = false)
   data.matrix!.fillRect({
     cell: data.input[x][y],
     drawOptions: {
-      bgFillStyle: COLORS[colorIndex % COLORS.length]
+      bgFillStyle: COLOR_LIST[colorIndex % COLOR_LIST.length]
     },
     x,
     y

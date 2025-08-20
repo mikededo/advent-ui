@@ -34,14 +34,12 @@ const data: Data = {
   maxRows: 0
 };
 
-type Variant = 'a' | 'b';
 type State = {
   /**
    * Returns the amount of steps done, used for A solution
    */
   aStats: number;
   running: boolean;
-  variant: undefined | Variant;
   startPoint: Point;
   /**
    * Contains the values that are used to display information for the b
@@ -52,6 +50,7 @@ type State = {
     surface: number;
     loopLen: number;
   } | undefined;
+  variant?: ProblemVariant;
 };
 export const algorithmState: State = $state({
   aStats: 0,
@@ -155,9 +154,7 @@ const findLoop = async (startX: number, startY: number, defaultDelay?: number): 
       visited.push(next);
 
       const delay = defaultDelay ?? (data.input.length > 50 ? 10 : 50);
-      if (delay > 0) {
-        await sleep(delay, { signal: data.controllers.exec!.signal });
-      }
+      await sleep(delay, { signal: data.controllers.exec!.signal });
     }
     // We also keep track of algorhthmState.running to allow stopping the execution
   } while (!stop && algorithmState.running);
@@ -227,7 +224,7 @@ const calculatePointsInside = (loop: Point[]): Result<Required<State['bStats']>,
 
 type StartArgs = {
   delay?: number;
-  solution?: State['variant'];
+  solution?: ProblemVariant;
 };
 export const start = async (args: StartArgs = {}) => {
   data.controllers.exec = new AbortController();
@@ -328,7 +325,7 @@ export const generateInput = (input: string, args: Args = {}) => {
   });
 };
 
-export const reset = (solution: Variant) => {
+export const reset = (solution: ProblemVariant) => {
   data.controllers.exec?.abort();
   data.controllers.render?.abort();
 

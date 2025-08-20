@@ -3,6 +3,12 @@ import type { Year } from '$lib/utils';
 
 export const SOLUTIONS: Record<number, Year> = {
   2024: {
+    10: {
+      href: '/2024/10',
+      title: '10th',
+      description: 'Implementation of a <em>&ldquo;flood fill&rdquo;</em> algorithm to dectect consequent areas.',
+      tags: ['Algorithm']
+    },
     12: {
       href: '/2024/12',
       title: '12th',

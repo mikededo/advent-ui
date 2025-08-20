@@ -2,8 +2,12 @@
 type Options = {
   signal?: AbortSignal;
 };
-export const sleep = (ms: number, { signal }: Options = {}) =>
-  new Promise<boolean>((resolve, reject) => {
+export const sleep = (ms: number, { signal }: Options = {}) => {
+  if (ms <= 0) {
+    return;
+  }
+
+  return new Promise<boolean>((resolve, reject) => {
     if (signal?.aborted) {
       reject(false);
       return;
@@ -16,3 +20,5 @@ export const sleep = (ms: number, { signal }: Options = {}) =>
       reject(false);
     });
   });
+};
+

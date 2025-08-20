@@ -1,4 +1,5 @@
 <script lang="ts">
+    import type { Snippet } from 'svelte';
     import type { HTMLTextareaAttributes } from 'svelte/elements';
 
     import { twMerge } from 'tailwind-merge';
@@ -7,9 +8,11 @@
         class?: string;
         ref?: HTMLTextAreaElement;
         title?: string;
+        options?: Snippet;
     } & HTMLTextareaAttributes;
 
     let {
+        options,
         ref = $bindable(),
         title,
         value = $bindable(),
@@ -23,7 +26,10 @@
     );
 </script>
 
-<p class="m-0! font-semibold">{title}</p>
+<div class="flex items-center justify-between">
+    <p class="m-0! font-semibold">{title}</p>
+    {@render options?.()}
+</div>
 <textarea
     {...restProps}
     class={classes}
