@@ -34,13 +34,14 @@ const data: Data = {
   maxRows: 0
 };
 
+type Variant = 'a' | 'b';
 type State = {
   /**
    * Returns the amount of steps done, used for A solution
    */
   aStats: number;
   running: boolean;
-  variant: 'a' | 'b' | undefined;
+  variant: undefined | Variant;
   startPoint: Point;
   /**
    * Contains the values that are used to display information for the b
@@ -327,7 +328,7 @@ export const generateInput = (input: string, args: Args = {}) => {
   });
 };
 
-export const reset = () => {
+export const reset = (solution: Variant) => {
   data.controllers.exec?.abort();
   data.controllers.render?.abort();
 
@@ -339,7 +340,7 @@ export const reset = () => {
   data.controllers = {};
 
   // Clear state
-  algorithmState.variant = undefined;
+  algorithmState.variant = solution;
   algorithmState.aStats = 0;
   algorithmState.bStats = undefined;
   algorithmState.running = false;

@@ -40,7 +40,7 @@
         // No need to set shouldReset to false, as from now on it will always
         // be necessary
         if (shouldReset) {
-            reset();
+            reset(solution);
         }
 
         generateInput(input, {
@@ -209,7 +209,7 @@
         Further steps: <AnimatedNumber value={Math.max(0, (algorithmState.aStats - 1) / 2)} />
     </p>
     {#if algorithmState.aStats > 1}
-        <span>&centerdot;</span>
+        <span>=</span>
         <p class="italic text-slate-500">
             (<span title="Loop steps">{algorithmState.aStats}</span> - 1) / 2
         </p>
@@ -217,18 +217,16 @@
 {/snippet}
 
 {#snippet b_state()}
-    {@const { inside, loopLen, surface } = algorithmState.bStats ?? {}}
-    {#if algorithmState.running}
-        <p class="font-semibold">
-            Points inside: ...
-        </p>
-    {:else if inside}
-        <p class="font-semibold">
-            Points inside: <AnimatedNumber value={inside} />
-        </p>
-        <span>&centerdot;</span>
-        <p class="italic text-slate-500" title="Pick's theorem">
-            <span title="Surface">{surface}</span> - (<span title="Loop length">{loopLen}</span> / 2) + 1
-        </p>
-    {/if}
+    {@const { inside, loopLen, surface } = algorithmState.bStats ?? {
+        inside: 0,
+        loopLen: 0,
+        surface: 0
+    }}
+    <p class="font-semibold">Points inside: <AnimatedNumber value={inside} /></p>
+    <span>=</span>
+    <p class="italic text-slate-500" title="Pick's theorem">
+        <span title="Surface">
+            <AnimatedNumber class="font-normal" value={surface} />
+        </span> - (<span title="Loop length"><AnimatedNumber class="font-normal" value={loopLen} /></span> / 2) + 1
+    </p>
 {/snippet}

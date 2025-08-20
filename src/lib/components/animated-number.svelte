@@ -1,33 +1,29 @@
 <script lang="ts">
     import { quadInOut } from 'svelte/easing';
     import { Tween } from 'svelte/motion';
+    import { tv } from 'tailwind-variants';
 
     type Props = {
         value: number;
+        class?: string;
         duration?: number;
         format?: (value: number) => number | string;
     };
 
     const {
         format = (value) => Math.round(value),
-        value = 0
+        value = 0,
+        ...restProps
     }: Props = $props();
     const animatedValue = new Tween(value, { duration: 100, easing: quadInOut });
+
+    const classes = tv({ base: 'animated-number inline-block font-bold' });
 
     $effect(() => {
         animatedValue.set(value);
     });
-
 </script>
 
-<span class="animated-number">
+<span class={classes({ class: restProps.class })}>
     {format(animatedValue.current)}
 </span>
-
-<style>
-  .animated-number {
-    display: inline-block;
-    font-weight: bold;
-    transition: color 0.3s ease;
-  }
-</style>
