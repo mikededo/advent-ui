@@ -7,13 +7,24 @@
 
     import { setContext } from 'svelte';
     import { fade } from 'svelte/transition';
+    import { tv } from 'tailwind-variants';
 
+    import { page } from '$app/state';
     import { VGRidLine } from '$lib/components';
 
     type Props = { children: Snippet; data: LayoutData };
     const { children, data }: Props = $props();
 
     setContext('shiki', data.shiki);
+
+    const rootContainer = tv({
+        variants: {
+            isError: {
+                false: 'space-y-8 md:space-y-10',
+                true: 'my-auto'
+            }
+        }
+    });
 </script>
 
 <main
@@ -21,7 +32,11 @@
     style="scrollbar-gutter: auto;"
 >
     {#key data.pathname}
-        <div class="space-y-8 md:space-y-10" in:fade={{ delay: 100, duration: 100 }} out:fade={{ duration: 100 }}>
+        <div
+            class={rootContainer({ isError: Boolean(page.error) })}
+            in:fade={{ delay: 100, duration: 100 }}
+            out:fade={{ duration: 100 }}
+        >
             {@render children()}
         </div>
     {/key}
