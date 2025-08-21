@@ -1,3 +1,4 @@
+/* eslint-disable ts/no-use-before-define */
 import type { Result } from 'neverthrow';
 
 import type { MatrixCanvasHelper } from '$lib/utils';
@@ -264,6 +265,8 @@ type Args = {
   onComplete?: () => void;
 };
 export const generateInput = (input: string, args: Args = {}) => {
+  reset();
+
   data.controllers.render = new AbortController();
 
   const container = document.getElementById(CONTAINER_ID);
@@ -325,7 +328,7 @@ export const generateInput = (input: string, args: Args = {}) => {
   });
 };
 
-export const reset = (solution: ProblemVariant) => {
+export const reset = (solution: ProblemVariant = 'a') => {
   data.controllers.exec?.abort();
   data.controllers.render?.abort();
 

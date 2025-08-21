@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { onMount } from 'svelte';
+    import { useDebounce, watch } from 'runed';
 
     import {
         AnimatedNumber,
@@ -25,35 +25,41 @@
         start
     } from './solver.svelte';
 
-    let shouldReset = false;
-
     let input = $state('');
     let delay = $state(30);
+    let shouldReset = $state(false);
+    let debounceDelay = $state(500);
 
     const onSolve = (solution: 'a' | 'b') => () => {
-        if (input.trim() === '' && !shouldReset) {
-            start({ delay, solution });
-            shouldReset = true;
+        if (shouldReset) {
+            generateInput(input, {
+                onComplete: () => {
+                    start({ delay, solution });
+                }
+            });
             return;
         }
 
-        // No need to set shouldReset to false, as from now on it will always
-        // be necessary
-        if (shouldReset) {
-            reset(solution);
-        }
-
-        generateInput(input, {
-            onComplete: () => {
-                start({ delay, solution });
-
-                shouldReset = true;
-            }
-        });
+        start({ delay, solution });
+        shouldReset = true;
     };
 
-    onMount(() => {
+    const generate = useDebounce(() => {
         generateInput(input);
+        shouldReset = false;
+        debounceDelay = 500;
+    }, () => debounceDelay);
+
+    watch(() => input, () => {
+        generate();
+    }, { lazy: true });
+
+    $effect(() => {
+        generateInput(DEFAULT_MAP);
+
+        return () => {
+            reset();
+        };
     });
 </script>
 
