@@ -26,8 +26,18 @@
     let delay = $state(DEFAULT_DELAY);
     let parallel = $state(1);
     let debounceDelay = $state(500);
+    let shouldReset = $state(false);
 
     const onSolve = () => {
+        if (shouldReset) {
+            generateInput(input, {
+                onComplete: () => {
+                    start({ delay, parallel });
+                }
+            });
+            return;
+        }
+
         start({ delay, parallel });
     };
 
@@ -38,6 +48,7 @@
 
     const generate = useDebounce(() => {
         generateInput(input);
+        shouldReset = false;
         debounceDelay = 500;
     }, () => debounceDelay);
 
