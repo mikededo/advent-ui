@@ -134,9 +134,11 @@ const findTrails = async (
 type StartArgs = {
   delay?: number;
   parallel?: number;
+  variant?: ProblemVariant;
 };
 export const start = async (args: StartArgs = {}) => {
   data.delay = args.delay ?? data.delay;
+  data.trackVisited = args.variant === 'a';
 
   algorithmState.running = true;
 

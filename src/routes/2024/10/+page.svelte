@@ -28,7 +28,7 @@
     let debounceDelay = $state(500);
     let shouldReset = $state(false);
 
-    const onSolve = () => {
+    const onSolve = (variant: ProblemVariant) => () => {
         if (shouldReset) {
             generateInput(input, {
                 onComplete: () => {
@@ -38,7 +38,7 @@
             return;
         }
 
-        start({ delay, parallel });
+        start({ delay, parallel, variant });
     };
 
     const onSetInput = (value: string) => () => {
@@ -103,17 +103,17 @@
             <ShikiCode code={BENCHMARK_A} options={{ lang: 'shellscript' }} />
         </section>
 
-        <!-- <section> -->
-        <!--     <h2>Problem B</h2> -->
-        <!--     <p> -->
-        <!--         For part B, the visited tracking is disabled so that all -->
-        <!--         distinct hiking trails are counted, even if they overlap at -->
-        <!--         intermediate positions. The recursive DFS explores every valid -->
-        <!--         path from each trailhead, incrementing the count whenever a -->
-        <!--         trail reaches height 9. Summing these counts across all -->
-        <!--         trailheads gives the total rating. -->
-        <!--     </p> -->
-        <!-- </section> -->
+        <section>
+            <h2>Problem B</h2>
+            <p>
+                For part B, the visited tracking is disabled so that all
+                distinct hiking trails are counted, even if they overlap at
+                intermediate positions. The recursive DFS explores every valid
+                path from each trailhead, incrementing the count whenever a
+                trail reaches height 9. Summing these counts across all
+                trailheads gives the total rating.
+            </p>
+        </section>
 
         <p>
             This approach efficiently handles both parts of the problem by
@@ -147,8 +147,11 @@
     <header class="flex items-end justify-between">
         <h2 class="mb-0">Visualization</h2>
         <div class="flex items-center gap-1">
-            <Button onclick={onSolve}>
+            <Button onclick={onSolve('a')}>
                 {algorithmState.running ? 'Running' : 'Solve A'}
+            </Button>
+            <Button onclick={onSolve('b')}>
+                {algorithmState.running ? 'Running' : 'Solve B'}
             </Button>
         </div>
     </header>

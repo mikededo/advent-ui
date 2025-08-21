@@ -6,7 +6,7 @@ export const SOLUTIONS: Record<number, Year> = {
     10: {
       href: '/2024/10',
       title: '10th',
-      description: 'Implementation of a <em>&ldquo;flood fill&rdquo;</em> algorithm to dectect consequent areas.',
+      description: 'Traverse from each trailhead through increasing heights, counting unique and all paths.',
       tags: ['Algorithm']
     },
     12: {
