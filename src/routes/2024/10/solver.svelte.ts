@@ -1,3 +1,4 @@
+/* eslint-disable ts/no-use-before-define */
 import type { MatrixCanvasHelper, PromiseFactory } from '$lib/utils';
 
 import { toast } from 'svelte-sonner';

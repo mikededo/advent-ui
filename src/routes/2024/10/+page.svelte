@@ -1,4 +1,6 @@
 <script lang="ts">
+    import { useDebounce, watch } from 'runed';
+
     import {
         AnimatedNumber,
         Button,
@@ -20,32 +22,31 @@
         start
     } from './solver.svelte';
 
-    let hasChanged = false;
-
     let input = $state('');
     let delay = $state(DEFAULT_DELAY);
     let parallel = $state(1);
+    let debounceDelay = $state(500);
 
     const onSolve = () => {
-        if (input.trim() === '' && !hasChanged) {
-            start({ delay, parallel });
-            return;
-        }
-
-        hasChanged = true;
-        generateInput(input, {
-            onComplete: () => {
-                start({ delay, parallel });
-            }
-        });
+        start({ delay, parallel });
     };
 
     const onSetInput = (value: string) => () => {
+        debounceDelay = 0;
         input = value;
     };
 
-    $effect(() => {
+    const generate = useDebounce(() => {
         generateInput(input);
+        debounceDelay = 500;
+    }, () => debounceDelay);
+
+    watch(() => input, () => {
+        generate();
+    }, { lazy: true });
+
+    $effect(() => {
+        generateInput(DEFAULT_MAP);
 
         return () => {
             reset();
