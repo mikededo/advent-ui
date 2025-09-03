@@ -10,7 +10,7 @@
         SMWarning,
         Textarea
     } from '$lib/components';
-    import { BENCHMARK_A, DEFAULT_MAP, LARGE_INPUT } from '$lib/inputs/2024/input-10';
+    import { BENCHMARK_A, BENCHMARK_B, DEFAULT_MAP, LARGE_INPUT } from '$lib/inputs/2024/input-10';
     import { COLOR_MAP } from '$lib/utils';
 
     import {
@@ -66,8 +66,8 @@
 </script>
 
 <svelte:head>
-    <title>Visualization 12/2024</title>
-    <meta content="Solution to 12th problem" name="description" />
+    <title>Visualization 10/2024</title>
+    <meta content="Solution to 10th problem" name="description" />
 </svelte:head>
 
 <Header
@@ -113,6 +113,8 @@
                 trail reaches height 9. Summing these counts across all
                 trailheads gives the total rating.
             </p>
+
+            <ShikiCode code={BENCHMARK_B} options={{ lang: 'shellscript' }} />
         </section>
 
         <p>
