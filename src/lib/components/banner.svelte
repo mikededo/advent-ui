@@ -12,7 +12,7 @@
     const { header, variant = 'default', ...rest }: Props = $props();
 
     const variants = tv({
-        base: 'rounded-md px-4 py-2 text-sm',
+        base: 'px-4 py-3 text-sm',
         defaultVariants: {
             variant: 'default'
         },

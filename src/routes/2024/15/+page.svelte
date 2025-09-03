@@ -149,7 +149,7 @@ You can also generate a set of random movements with the button below.`;
     {/snippet}
 </Header>
 
-<section class="hidden px-4 md:block">
+<section class="hidden md:block">
     <h2 class="mb-2 mt-4">Customize your input</h2>
     <div class="flex w-full flex-col items-center gap-2 md:flex-row" bind:this={container}>
         <div class="input flex flex-col gap-2" style="--input-width: {mapWidth}%">
@@ -161,7 +161,7 @@ You can also generate a set of random movements with the button below.`;
             />
         </div>
         <div
-            class="hidden h-10 w-1 shrink-0 cursor-ew-resize rounded-full bg-gray-200 md:block"
+            class="hidden h-10 w-1 shrink-0 cursor-ew-resize bg-gray-200 md:block"
             use:useDraggable
         ></div>
         <div

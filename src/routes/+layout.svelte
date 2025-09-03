@@ -20,7 +20,6 @@
     const rootContainer = tv({
         variants: {
             isError: {
-                false: 'space-y-8 md:space-y-10',
                 true: 'my-auto'
             }
         }
@@ -51,6 +50,7 @@
     <p>
         Designed and developed by
         <a
+            class="link"
             href="https://github.com/mikededo"
             rel="nofollow"
             target="_blank"
@@ -58,6 +58,10 @@
             @mikededo
         </a>
         &centerdot;
-        <a href="https://mikededo.com" rel="nofollow" target="_blank">mikededo.com</a>
+        <a class="link"
+            href="https://mikededo.com"
+            rel="nofollow"
+            target="_blank"
+        >mikededo.com</a>
     </p>
 </footer>

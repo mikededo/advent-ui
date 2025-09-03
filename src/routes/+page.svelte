@@ -12,7 +12,7 @@
 <header>
     <nav>
         <a
-            class="mb-2 flex items-center justify-end gap-2 text-sm text-[var(--tw-prose-headings)] no-underline"
+            class="mb-2 flex items-center justify-end gap-2 text-sm no-underline"
             href="/"
             rel="external"
             target="_blank"

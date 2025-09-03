@@ -5,6 +5,7 @@
         AnimatedNumber,
         Button,
         Header,
+        InputOptions,
         ShikiCode,
         Slider,
         SMWarning,
@@ -41,7 +42,7 @@
         start({ delay, parallel, variant });
     };
 
-    const onSetInput = (value: string) => () => {
+    const onSelectInput = (value: string) => {
         debounceDelay = 0;
         input = value;
     };
@@ -126,7 +127,7 @@
     {/snippet}
 </Header>
 
-<section class="hidden px-4 md:block">
+<section class="hidden md:block">
     <h2 class="mb-2 mt-4">Customize your input</h2>
     <div class="mb-2 flex w-full flex-col gap-2">
         <Textarea
@@ -217,18 +218,5 @@
 </section>
 
 {#snippet textarea_options()}
-    <div class="flex items-center gap-4 text-sm font-medium">
-        <button
-            class="cursor-pointer hover:underline"
-            onclick={onSetInput(DEFAULT_MAP)}
-        >
-            Small input
-        </button>
-        <button
-            class="cursor-pointer hover:underline"
-            onclick={onSetInput(LARGE_INPUT)}
-        >
-            Large input
-        </button>
-    </div>
+    <InputOptions large={LARGE_INPUT} small={DEFAULT_MAP} onSelect={onSelectInput} />
 {/snippet}

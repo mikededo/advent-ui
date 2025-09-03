@@ -5,31 +5,7 @@
 
 @custom-variant dark (&:is(.dark *));
 
-@layer base {
-  *,
-  ::after,
-  ::before,
-  ::backdrop,
-  ::file-selector-button {
-    border-color: var(--color-gray-200, currentColor);
-  }
-}
-
-@layer base {
-  :root {
-    --font-sans: Geist;
-    --font-mono: 'Geist Mono';
-    --background: #ffffff;
-    --foreground: #333333;
-  }
-
-  .dark {
-    --background: #000000;
-    --foreground: #ffffff;
-  }
-}
-
-@theme static {
+@theme {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
 }
@@ -60,15 +36,18 @@
   * {
     scrollbar-width: thin;
     scrollbar-gutter: stable;
-    scrollbar-color: #374151 transparent;
+    border-color: var(--color-gray-200, currentColor);
   }
 
   :root {
     --font-sans: 'IBM Plex Sans';
     --font-mono: 'IBM Plex Mono';
-    --background: #ffffff;
-    --foreground: #333333;
   }
+}
+
+:root {
+  --background: #ffffff;
+  --foreground: #333333;
 
   .dark {
     --background: #000000;
@@ -77,18 +56,27 @@
 }
 
 html {
-  @apply font-sans;
+  @apply font-sans text-foreground;
+}
 
-  /* Custom styling for links */
-  @apply prose-a:no-underline prose-a:hover:underline prose-a:hover:text-indigo-600;
+h1 {
+  @apply font-bold text-4xl mb-6;
 }
 
 h2 {
-  @apply mt-4 mb-2;
+  @apply font-bold text-2xl mt-6 mb-2;
 }
 
 p {
   @apply my-2;
+}
+
+ul {
+  @apply list-disc list-inside my-2 ml-4;
+}
+
+.link {
+  @apply text-indigo-500 font-medium hover:text-indigo-600 hover:underline;
 }
 
 :root {
@@ -98,10 +86,6 @@ p {
   --grid-animation-delay: 0;
 
   --grid-h-line-offset: 150px;
-}
-
-.prose {
-  --tw-prose-links: var(--color-indigo-500);
 }
 
 .h-grid-line:after,

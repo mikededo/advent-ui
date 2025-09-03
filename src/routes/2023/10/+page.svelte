@@ -129,7 +129,7 @@
         </section>
     {/snippet}
 
-    <section class="rounded-md bg-slate-100 px-4 py-2 text-sm">
+    <section class="bg-slate-100 px-4 py-2 text-sm">
         <h2 class="mt-1!">Additional implementation</h2>
         <p>
             In order to make the visualization more appealing, once the
@@ -144,7 +144,7 @@
     </section>
 </Header>
 
-<section class="hidden px-4 md:block">
+<section class="hidden md:block">
     <h2 class="mb-2 mt-4">Customize your input</h2>
     <div class="mb-2 flex w-full flex-col gap-2">
         <Textarea
