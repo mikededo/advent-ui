@@ -14,33 +14,33 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "bits-ui": "2.9.2",
-    "lucide-svelte": "0.532.0",
+    "bits-ui": "2.9.6",
+    "lucide-svelte": "0.542.0",
     "runed": "0.31.1",
     "svelte-sonner": "1.0.5",
     "tailwind-merge": "3.3.1",
-    "tailwind-variants": "2.0.1"
+    "tailwind-variants": "3.1.0"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "5.0.0",
-    "@sveltejs/adapter-auto": "6.0.1",
-    "@sveltejs/adapter-static": "3.0.8",
-    "@sveltejs/kit": "2.26.1",
-    "@sveltejs/vite-plugin-svelte": "6.1.0",
+    "@antfu/eslint-config": "5.2.1",
+    "@sveltejs/adapter-auto": "6.1.0",
+    "@sveltejs/adapter-static": "3.0.9",
+    "@sveltejs/kit": "2.37.0",
+    "@sveltejs/vite-plugin-svelte": "6.1.4",
     "@tailwindcss/typography": "0.5.16",
-    "@tailwindcss/vite": "4.1.11",
+    "@tailwindcss/vite": "4.1.12",
     "autoprefixer": "10.4.21",
     "eslint-plugin-format": "1.0.1",
     "eslint-plugin-perfectionist": "4.15.0",
     "eslint-plugin-svelte": "3.11.0",
-    "eslint-plugin-svelte-sort-attributes": "1.1.5",
+    "eslint-plugin-svelte-sort-attributes": "1.2.0",
     "eslint-plugin-svelte-tailwindcss": "1.1.0",
     "neverthrow": "^8.2.0",
-    "shiki": "3.8.1",
-    "svelte": "5.37.0",
-    "svelte-check": "4.3.0",
-    "tailwindcss": "4.1.11",
+    "shiki": "3.12.2",
+    "svelte": "5.38.6",
+    "svelte-check": "4.3.1",
+    "tailwindcss": "4.1.12",
     "tw-aria": "^1.1.1",
-    "vite": "7.0.6"
+    "vite": "7.1.4"
   }
 }
