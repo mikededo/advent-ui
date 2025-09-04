@@ -63,7 +63,7 @@ export const solutionsGeneratorPlugin = (): Plugin => ({
     });
   },
   handleHotUpdate: async ({ file, server }) => {
-    if (!file.includes('/routes/') || !file.endsWith('+page.svelte') || !file.endsWith('metadata.ts')) {
+    if (!file.includes('/routes/') || (!file.endsWith('+page.svelte') && !file.endsWith('metadata.ts'))) {
       return;
     }
 
