@@ -1,7 +1,7 @@
 <script lang="ts">
     import { GithubIcon } from 'lucide-svelte';
 
-    import { YearSection } from '$lib/components';
+    import { CookieConsent, YearSection } from '$lib/components';
     import { SOLUTIONS } from '$lib/data';
 </script>
 
@@ -38,3 +38,4 @@
     <YearSection position={i} year={+year} {days} />
 {/each}
 
+<CookieConsent />
