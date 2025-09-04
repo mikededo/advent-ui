@@ -25,7 +25,7 @@
         A collection of visualizations for Advent of Code problems, from some of the problems that I've solved. You can find the solutions in this
         <a
             class="link"
-            href="https://github.com/mikededo/avent"
+            href="https://github.com/mikededo/advent"
             rel="external"
             target="_blank"
         >
