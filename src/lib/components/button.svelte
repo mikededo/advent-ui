@@ -12,7 +12,7 @@
     const { variant, ...rest }: Props = $props();
 
     const classes = tv({
-        base: 'cursor-pointer px-4 py-2 font-medium uppercase transition-colors duration-150 active:scale-[0.975] disabled:cursor-not-allowed disabled:bg-gray-500',
+        base: 'cursor-pointer px-4 py-2 text-sm font-medium uppercase transition-colors duration-150 active:scale-[0.975] disabled:cursor-not-allowed disabled:bg-gray-500',
         defaultVariants: { variant: 'default' },
         variants: {
             variant: {

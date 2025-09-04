@@ -10,7 +10,7 @@
     import { tv } from 'tailwind-variants';
 
     import { page } from '$app/state';
-    import { VGRidLine } from '$lib/components';
+    import { CookieConsent, VGRidLine } from '$lib/components';
 
     type Props = { children: Snippet; data: LayoutData };
     const { children, data }: Props = $props();
@@ -39,6 +39,8 @@
 
     <VGRidLine class="hidden lg:block" delay={0.15} />
     <VGRidLine class="hidden lg:block" delay={0.2} right />
+
+    <CookieConsent />
 </main>
 
 <footer

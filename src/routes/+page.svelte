@@ -1,7 +1,7 @@
 <script lang="ts">
     import { GithubIcon } from 'lucide-svelte';
 
-    import { CookieConsent, YearSection } from '$lib/components';
+    import { YearSection } from '$lib/components';
     import { SOLUTIONS } from '$lib/data';
 </script>
 
@@ -37,5 +37,3 @@
 {#each Object.entries(SOLUTIONS).reverse() as [year, days], i(year)}
     <YearSection position={i} year={+year} {days} />
 {/each}
-
-<CookieConsent />

@@ -55,7 +55,7 @@ export const SOLUTIONS: Record<number, Year> = {
   },
   2022: {
     5: {
-      description: 'The 5th anniversary of the Svelte framework',
+      description: 'Simulate crane instructions step by step to track crate movement and identify the top crate of each stack.',
       href: '/2022/5',
       tags: [
         'Algorithm',
