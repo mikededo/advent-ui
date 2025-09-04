@@ -9,7 +9,7 @@
 </script>
 
 <a
-    class="bg-background flex flex-col gap-1 border px-3 py-2 transition-all duration-100 hover:border-indigo-300 md:px-3"
+    class="bg-background z-1 flex flex-col gap-1 border px-3 py-2 transition-all duration-100 hover:border-indigo-300 md:px-3"
     {href}
 >
     <p class="my-0! font-semibold">{title}</p>
