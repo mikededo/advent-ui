@@ -26,10 +26,7 @@
     });
 </script>
 
-<main
-    class="container relative flex min-h-[calc(100vh-48px)] flex-col overflow-hidden bg-white px-8 py-8"
-    style="scrollbar-gutter: auto;"
->
+<main class="container relative flex min-h-[calc(100vh-48px)] flex-col overflow-hidden bg-white px-8 py-8">
     {#key data.pathname}
         <div
             class={rootContainer({ isError: Boolean(page.error) })}
