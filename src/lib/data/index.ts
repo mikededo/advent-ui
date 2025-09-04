@@ -1,1 +1,1 @@
-export { SOLUTIONS } from './solutions';
+export * from './solutions';
