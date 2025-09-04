@@ -8,9 +8,10 @@
     "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
     "check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
     "dev": "vite dev",
-    "lint": "eslint .",
+    "lint": "eslint . --max-warnings 0",
     "lint:fix": "eslint . --fix",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "prepare": "husky"
   },
   "dependencies": {
     "bits-ui": "2.9.6",
@@ -43,5 +44,8 @@
     "tailwindcss": "4.1.12",
     "tw-aria": "^1.1.1",
     "vite": "7.1.4"
+  },
+  "lint-staged": {
+    "*.{js,ts,svelte,json}": "eslint --fix"
   }
 }
