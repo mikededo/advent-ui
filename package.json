@@ -10,8 +10,9 @@
     "dev": "vite dev",
     "lint": "eslint . --max-warnings 0",
     "lint:fix": "eslint . --fix",
+    "precommit": "lint-staged",
     "preview": "vite preview",
-    "prepare": "husky"
+    "prepare": "husky || true"
   },
   "dependencies": {
     "bits-ui": "2.9.6",
@@ -36,7 +37,9 @@
     "eslint-plugin-svelte": "3.11.0",
     "eslint-plugin-svelte-sort-attributes": "1.2.0",
     "eslint-plugin-svelte-tailwindcss": "1.1.0",
+    "husky": "9.1.7",
     "kleur": "4.1.5",
+    "lint-staged": "16.1.6",
     "neverthrow": "^8.2.0",
     "shiki": "3.12.2",
     "svelte": "5.38.6",
