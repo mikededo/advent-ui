@@ -9,11 +9,11 @@
     <title>AoC Visualizations - @mikededo</title>
 </svelte:head>
 
-<header>
+<header class="z-1 relative mb-6">
     <nav>
         <a
-            class="mb-2 flex items-center justify-end gap-2 text-sm no-underline"
-            href="/"
+            class="mb-2 flex items-center justify-end gap-2 text-sm"
+            href="https://github.com/mikededo/advent-ui"
             rel="external"
             target="_blank"
         >
@@ -24,6 +24,7 @@
     <p>
         A collection of visualizations for Advent of Code problems, from some of the problems that I've solved. You can find the solutions in this
         <a
+            class="link"
             href="https://github.com/mikededo/avent"
             rel="external"
             target="_blank"

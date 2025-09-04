@@ -36,12 +36,34 @@
   * {
     scrollbar-width: thin;
     scrollbar-gutter: stable;
+    scrollbar-color: #333 transparent;
+
     border-color: var(--color-gray-200, currentColor);
   }
 
   :root {
     --font-sans: 'IBM Plex Sans';
     --font-mono: 'IBM Plex Mono';
+  }
+
+  html {
+    @apply font-sans text-foreground;
+  }
+
+  h1 {
+    @apply font-bold text-4xl mb-6;
+  }
+
+  h2 {
+    @apply font-bold text-2xl mt-6 mb-2;
+  }
+
+  p {
+    @apply my-2;
+  }
+
+  ul {
+    @apply list-disc list-inside my-2 ml-4;
   }
 }
 
@@ -53,26 +75,6 @@
     --background: #000000;
     --foreground: #ffffff;
   }
-}
-
-html {
-  @apply font-sans text-foreground;
-}
-
-h1 {
-  @apply font-bold text-4xl mb-6;
-}
-
-h2 {
-  @apply font-bold text-2xl mt-6 mb-2;
-}
-
-p {
-  @apply my-2;
-}
-
-ul {
-  @apply list-disc list-inside my-2 ml-4;
 }
 
 .link {
@@ -95,16 +97,7 @@ ul {
   top: 0;
   left: calc(var(--grid-h-line-offset) / 2 * -1);
   height: var(--grid-line-width);
-  background: linear-gradient(to right, var(--grid-line-color), var(--grid-line-color) 50%, transparent 0, transparent);
-  background-size: var(--grid-line-gap) var(--grid-line-width);
-  mask:
-    linear-gradient(to left, #fff 95%, transparent), linear-gradient(to right, #fff 95%, transparent),
-    linear-gradient(black, black);
-  -webkit-mask:
-    linear-gradient(to left, #fff 95%, transparent), linear-gradient(to right, #fff 95%, transparent),
-    linear-gradient(black, black);
-  -webkit-mask-composite: destination-in;
-  mask-composite: exclude;
+  background: var(--color-slate-200);
 
   animation-name: hGridEntry;
 }
@@ -113,7 +106,7 @@ ul {
   position: absolute;
   width: var(--grid-line-width);
   top: 0;
-  background: linear-gradient(180deg, var(--grid-line-color), var(--grid-line-color) 50%, transparent 0, transparent);
+  background: var(--color-slate-200);
   background-size: var(--grid-line-width) var(--grid-line-gap);
 
   animation-name: vGridEntry;
@@ -131,21 +124,21 @@ ul {
 @keyframes hGridEntry {
   from {
     width: 0;
-    opacity: 1;
+    opacity: 0.75;
   }
   to {
     width: calc(100% + var(--grid-h-line-offset));
-    opacity: 0.3;
+    opacity: 0.75;
   }
 }
 
 @keyframes vGridEntry {
   from {
     height: 0;
-    opacity: 1;
+    opacity: 0.75;
   }
   to {
     height: 100%;
-    opacity: 0.4;
+    opacity: 0.75;
   }
 }

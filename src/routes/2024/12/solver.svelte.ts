@@ -48,7 +48,7 @@ MLLLLLLLLLKKKJJJJJRLHHHHHHEDDDDDDDDDDMM`
   .map((line) => line.split(''));
 
 const COLOR_LIST = getColorList('background');
-const CELL_SIZE = 24;
+const CELL_SIZE = 20;
 
 export const CONTAINER_ID = 'container';
 

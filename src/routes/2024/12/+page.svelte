@@ -51,7 +51,7 @@
 
 <section>
     <h2 class="mb-0 mt-4">Visualization</h2>
-    <div class="mb-2 flex w-full items-center justify-between gap-8 font-semibold">
+    <div class="mb-4 flex w-full items-center justify-between gap-8 font-semibold">
         <p class="my-0!">Cost: <AnimatedNumber value={algorithmState.cost} /></p>
         <Button
             disabled={algorithmState.running}

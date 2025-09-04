@@ -42,7 +42,5 @@
     {#if label}
         <span>{label}</span>
     {/if}
-    <span class="font-mono">
-        {formatTime(time)}
-    </span>
+    <span>{formatTime(time)}</span>
 </div>

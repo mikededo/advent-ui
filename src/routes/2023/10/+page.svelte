@@ -182,7 +182,7 @@
         <div class="grid grid-flow-row grid-cols-4">
             <div class="w-full max-w-xs space-y-1">
                 <div class="flex items-center justify-between text-sm">
-                    <label for="time">Duration</label>
+                    <label for="time">Step duration</label>
                     <span>{delay}ms</span>
                 </div>
                 <div class="w-full max-w-xs">

@@ -27,17 +27,21 @@
     </nav>
     <h1>{title}</h1>
     {@render description()}
-    <ul>
+    <ul class="my-4">
         <li>
             Code for this solution:
-            <a href={url}
+            <a
+                class="link"
+                href={url}
                 rel="external"
                 target="_blank"
             >
                 {fileName}
             </a>
         </li>
-        <li><a href={problemUrl}>Problem statement</a></li>
+        <li>
+            <a class="link" href={problemUrl}>Problem statement</a>
+        </li>
     </ul>
     {#if children}
         {@render children()}
