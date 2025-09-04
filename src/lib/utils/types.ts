@@ -1,4 +1,4 @@
-export type Tag = 'Algorithm';
+export type Tag = 'Algorithm' | 'Iterative';
 export type SolvedVisualization = {
   href: string;
   tags: Tag[];

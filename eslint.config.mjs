@@ -3,6 +3,8 @@ import perfectionist from 'eslint-plugin-perfectionist';
 import svelteSortAttributes from 'eslint-plugin-svelte-sort-attributes';
 import svelteTailwindcss from 'eslint-plugin-svelte-tailwindcss';
 
+import customRules from './eslint-rules/index.js';
+
 export default antfu(
   {
     formatters: {
@@ -138,6 +140,13 @@ export default antfu(
         }
       ]
     }
+  },
+  {
+    files: ['./src/routes/**/*.{svelte,ts}'],
+    plugins: { 'advent-ui': customRules },
+    rules: {
+      'advent-ui/require-metadata': 'error'
+    }
   }
 )
   .override('antfu/stylistic/rules', {
@@ -162,7 +171,8 @@ export default antfu(
           overrides: { ':': 'before', '?': 'before' }
         }
       ],
-      'style/quote-props': ['error', 'as-needed']
+      'style/quote-props': ['error', 'as-needed'],
+      'style/quotes': ['error', 'single', { avoidEscape: true }]
     }
   })
   .override('antfu/svelte/rules', {
