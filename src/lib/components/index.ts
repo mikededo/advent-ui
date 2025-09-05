@@ -7,6 +7,7 @@ export { default as ProblemCard } from './problem-card.svelte';
 export { ShikiCode } from './shiki-code';
 export { default as Slider } from './slider.svelte';
 export { default as SMWarning } from './sm-warning.svelte';
+export { default as SplitInputs } from './split-inputs.svelte';
 export { default as Textarea } from './textarea.svelte';
 export { default as Timer } from './timer.svelte';
 export { default as VGRidLine } from './v-grid-line.svelte';

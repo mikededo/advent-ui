@@ -3,16 +3,21 @@
 
     import { MoveLeftIcon } from 'lucide-svelte';
 
-    type Props = {
-        fileName: string;
+    type Props = ({ fileName: string; url: string } | { fileName?: never; url?: never }) & {
         title: string;
-        url: string;
         description: Snippet;
         problemUrl: string;
         children?: Snippet;
     };
 
-    const { children, description, fileName, problemUrl, title, url }: Props = $props();
+    const {
+        children,
+        description,
+        fileName,
+        problemUrl,
+        title,
+        url
+    }: Props = $props();
 </script>
 
 <header>
@@ -28,17 +33,19 @@
     <h1>{title}</h1>
     {@render description()}
     <ul class="my-4">
-        <li>
-            Code for this solution:
-            <a
-                class="link"
-                href={url}
-                rel="external"
-                target="_blank"
-            >
-                {fileName}
-            </a>
-        </li>
+        {#if url}
+            <li>
+                Code for this solution:
+                <a
+                    class="link"
+                    href={url}
+                    rel="external"
+                    target="_blank"
+                >
+                    {fileName}
+                </a>
+            </li>
+        {/if}
         <li>
             <a class="link" href={problemUrl}>Problem statement</a>
         </li>

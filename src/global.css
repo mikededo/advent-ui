@@ -65,11 +65,38 @@
   ul {
     @apply list-disc list-inside my-2 ml-4;
   }
+
+  code {
+    background-color: var(--color-slate-100);
+    color: var(--color-blue-600);
+    font-size: var(--text-sm);
+    padding: calc(var(--spacing) * 0.5) calc(var(--spacing) * 1.5);
+  }
 }
 
 :root {
   --background: #ffffff;
   --foreground: #333333;
+
+  /* This are the colors used around, yet I don't want them as tw classes */
+  --amber: #fbbf24;
+  --white: #f3f3f3;
+  --blue: #3b82f6;
+  --cyan: #22d3ee;
+  --emerald: #34d399;
+  --fuchsia: #e879f9;
+  --gray: #9ca3af;
+  --green: #4ade80;
+  --indigo: #818cf8;
+  --lime: #a3e635;
+  --orange: #fb923c;
+  --pink: #f472b6;
+  --purple: #a78bfa;
+  --red: #f87171;
+  --rose: #fb7185;
+  --sky: #0ea5e9;
+  --teal: #2dd4bf;
+  --yellow: #facc15;
 
   .dark {
     --background: #000000;

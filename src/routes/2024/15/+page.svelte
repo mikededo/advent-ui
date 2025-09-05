@@ -1,12 +1,10 @@
 <script lang="ts">
-    import type { Action } from 'svelte/action';
-
     import type { Cell } from './solver.svelte';
 
     import { toast } from 'svelte-sonner';
 
     import { beforeNavigate } from '$app/navigation';
-    import { Button, Header, ShikiCode, SMWarning, Textarea, Timer } from '$lib/components';
+    import { Button, Header, ShikiCode, SMWarning, SplitInputs, Timer } from '$lib/components';
     import { BENCHMARK, DEFAULT_MAP, DEFAULT_MOVEMENTS } from '$lib/inputs/2024/input-15';
     import { matrixCanvasHelper } from '$lib/utils';
 
@@ -23,15 +21,11 @@ Movements consist of: <^v>...
 You can also generate a set of random movements with the button below.`;
     const CONTAINER_ID = 'render-container';
 
-    let isDragging = $state(false);
-    let draggablePosition = $state(50);
-    const mapWidth = $derived(draggablePosition);
-
-    let container: HTMLDivElement | undefined = $state();
     let running: boolean = $state(false);
     let startTimer = $state(false);
 
     let mapInput: HTMLTextAreaElement | undefined = $state();
+
     let movementsInput: HTMLTextAreaElement | undefined = $state();
 
     const generateInput = () => {
@@ -84,36 +78,6 @@ You can also generate a set of random movements with the button below.`;
         });
     };
 
-    const useDraggable: Action<HTMLDivElement> = (node) => {
-        node.addEventListener('mousedown', () => {
-            isDragging = true;
-        });
-
-        const onMouseUp = () => {
-            if (isDragging) {
-                isDragging = false;
-            }
-        };
-
-        const onMouseMove = (e: MouseEvent) => {
-            if (isDragging && container) {
-                const { width, x } = container.getBoundingClientRect();
-                const relativeX = e.clientX - x;
-                draggablePosition = Math.min(Math.max((relativeX / width) * 100, 25), 75);
-            }
-        };
-
-        document.addEventListener('mousemove', onMouseMove);
-        document.addEventListener('mouseup', onMouseUp);
-
-        return {
-            destroy: () => {
-                document.removeEventListener('mousemove', onMouseMove);
-                document.removeEventListener('mouseup', onMouseUp);
-            }
-        };
-    };
-
     beforeNavigate(() => {
         running = false;
         algorithmState.cancel = true;
@@ -151,32 +115,14 @@ You can also generate a set of random movements with the button below.`;
 
 <section class="hidden md:block">
     <h2 class="mb-2 mt-4">Customize your input</h2>
-    <div class="flex w-full flex-col items-center gap-2 md:flex-row" bind:this={container}>
-        <div class="input flex flex-col gap-2" style="--input-width: {mapWidth}%">
-            <Textarea
-                bind:ref={mapInput}
-                placeholder={DEFAULT_MAP}
-                rows={10}
-                title="Map"
-            />
-        </div>
-        <div
-            class="hidden h-10 w-1 shrink-0 cursor-ew-resize bg-gray-200 md:block"
-            use:useDraggable
-        ></div>
-        <div
-            class="input col-span-2 flex flex-col gap-2"
-            style="--input-width: {100 - mapWidth}%"
-            class:pointer-events-none={isDragging}
-        >
-            <Textarea
-                bind:ref={movementsInput}
-                placeholder={MOVEMENT_PLACEHOLDER}
-                rows={10}
-                title="Movement"
-            />
-        </div>
-    </div>
+    <SplitInputs
+        bind:leftRef={mapInput}
+        bind:rightRef={movementsInput}
+        leftPlaceholder={DEFAULT_MAP}
+        leftTitle="Map"
+        rightPlaceholder={MOVEMENT_PLACEHOLDER}
+        rightTitle="Movements"
+    />
     <p>
         Once the map is rendered, know that: walls will be rendered with a darker color, empty spaces with a gray-ish tone, and boxes with a brown color. The robot will be rendered in blue!
         <br />
@@ -203,14 +149,3 @@ You can also generate a set of random movements with the button below.`;
     <div id={CONTAINER_ID}></div>
 </section>
 
-<style lang="postcss">
-@reference "tailwindcss";
-
-.input {
-  width: 100%;
-
-  @media (width >= theme(--breakpoint-md)) {
-    width: var(--input-width);
-  }
-}
-</style>
