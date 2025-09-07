@@ -1,7 +1,7 @@
 export const BENCHMARK = `» cargo build -p aoc-24 --release && hyperfine ./target/release/aoc-24 -N --warmup 5
-  Benchmark 1: ./target/release/aoc-24
-  Time (mean ± σ):       4.9 ms ±   0.6 ms    [User: 1.5 ms, System: 0.8 ms]
-  Range (min … max):     4.1 ms …   8.6 ms    604 runs
+Benchmark 1: ./target/release/aoc-24
+Time (mean ± σ):       4.9 ms ±   0.6 ms    [User: 1.5 ms, System: 0.8 ms]
+Range (min … max):     4.1 ms …   8.6 ms    604 runs
 `;
 
 export const DEFAULT_MAP = `

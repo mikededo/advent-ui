@@ -6,6 +6,10 @@
 
   scrollbar-width: thin;
 
+  code {
+    background-color: transparent;
+  }
+
   span {
     color: var(--shiki-light);
   }

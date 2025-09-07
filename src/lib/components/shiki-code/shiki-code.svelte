@@ -16,7 +16,7 @@
 
 <div class="shiki-wrapper my-4 px-5 py-3 text-sm">
     <!-- eslint-disable-next-line svelte/no-at-html-tags -->
-    {@html highlighter.codeToHtml(code, {
+    {@html highlighter.codeToHtml(code.trim(), {
         ...options,
         defaultColor: false,
         themes: { light: 'github-light-default' }
