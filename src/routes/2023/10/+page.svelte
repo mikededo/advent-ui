@@ -8,7 +8,10 @@
         ShikiCode,
         Slider,
         SMWarning,
-        Textarea
+        Textarea,
+
+        VisualizationHeader
+
     } from '$lib/components';
     import {
         BENCHMARK_A,
@@ -165,17 +168,14 @@
 </section>
 
 <section>
-    <header class="flex items-end justify-between">
-        <h2 class="mb-0">Visualization</h2>
-        <div class="flex items-center gap-1">
-            <Button onclick={onSolve('a')}>
-                {algorithmState.running ? 'Running' : 'Solve A'}
-            </Button>
-            <Button onclick={onSolve('b')}>
-                {algorithmState.running ? 'Running' : 'Solve B'}
-            </Button>
-        </div>
-    </header>
+    <VisualizationHeader>
+        <Button onclick={onSolve('a')}>
+            {algorithmState.running ? 'Running' : 'Solve A'}
+        </Button>
+        <Button onclick={onSolve('b')}>
+            {algorithmState.running ? 'Running' : 'Solve B'}
+        </Button>
+    </VisualizationHeader>
 
     <div class="mb-2 space-y-1">
         <p class="font-semibold">Configuration</p>

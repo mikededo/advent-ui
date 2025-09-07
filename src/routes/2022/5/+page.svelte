@@ -2,7 +2,7 @@
     import { onMount } from 'svelte';
     import { scale } from 'svelte/transition';
 
-    import { Button, Header, InputOptions, Slider, SplitInputs } from '$lib/components';
+    import { Button, Header, InputOptions, Slider, SplitInputs, VisualizationHeader } from '$lib/components';
 
     import { description } from './metadata';
     import { algorithmState, start } from './solver.svelte';
@@ -123,13 +123,14 @@
 </section>
 
 <section>
-    <header class="flex w-full flex-col justify-between gap-2 sm:flex-row sm:items-end sm:gap-0">
-        <h2 class="mb-0 flex-1">Visualization</h2>
-        <div class="flex items-stretch gap-1">
-            <Button class="w-full sm:w-auto" onclick={onSolve('a')}>{algorithmState.running ? 'Running' : 'Solve A'}</Button>
-            <Button class="w-full sm:w-auto" onclick={onSolve('b')}>{algorithmState.running ? 'Running' : 'Solve B'}</Button>
-        </div>
-    </header>
+    <VisualizationHeader>
+        <Button class="w-full sm:w-auto" onclick={onSolve('a')}>
+            {algorithmState.running ? 'Running' : 'Solve A'}
+        </Button>
+        <Button class="w-full sm:w-auto" onclick={onSolve('b')}>
+            {algorithmState.running ? 'Running' : 'Solve B'}
+        </Button>
+    </VisualizationHeader>
 
     <div class="mt-2 space-y-1">
         <p class="font-semibold">Configuration</p>

@@ -4,7 +4,7 @@
     import { toast } from 'svelte-sonner';
 
     import { beforeNavigate } from '$app/navigation';
-    import { Button, Header, ShikiCode, SMWarning, SplitInputs, Timer } from '$lib/components';
+    import { Button, Header, ShikiCode, SMWarning, SplitInputs, Timer, VisualizationHeader } from '$lib/components';
     import { BENCHMARK, DEFAULT_MAP, DEFAULT_MOVEMENTS } from '$lib/inputs/2024/input-15';
     import { matrixCanvasHelper } from '$lib/utils';
 
@@ -131,12 +131,9 @@ You can also generate a set of random movements with the button below.`;
 </section>
 
 <section class="hidden md:block">
-    <header class="flex items-end justify-between">
-        <h2 class="mb-0">Visualization</h2>
-        <div class="flex items-center gap-1">
-            <Button onclick={generateInput}>{running ? 'Running' : 'Solve'}</Button>
-        </div>
-    </header>
+    <VisualizationHeader>
+        <Button onclick={generateInput}>{running ? 'Running' : 'Solve'}</Button>
+    </VisualizationHeader>
 
     <div class="mb-2 flex items-center gap-4 font-semibold">
         <p>Movements to go: {algorithmState.movements.left}</p>
