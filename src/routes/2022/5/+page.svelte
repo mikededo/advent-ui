@@ -5,7 +5,7 @@
     import { Button, Header, InputOptions, Slider, SplitInputs, VisualizationHeader } from '$lib/components';
 
     import { description } from './metadata';
-    import { algorithmState, start } from './solver.svelte';
+    import { algorithmState, cancel, start } from './solver.svelte';
 
     const inputs = {
         large: { moves: '', stacks: '' },
@@ -48,6 +48,10 @@
             inputs.small.stacks = mod.DEFAULT_STACKS;
             inputs.small.moves = mod.DEFAULT_MOVES;
         });
+    });
+
+    $effect(() => () => {
+        cancel();
     });
 </script>
 

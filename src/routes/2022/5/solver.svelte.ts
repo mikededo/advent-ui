@@ -2,6 +2,9 @@ import * as v from 'valibot';
 
 import { sleep } from '$lib/utils';
 
+type Data = { controller?: AbortController };
+const data: Data = { controller: undefined };
+
 type State = {
   running: boolean;
   stacks: string[][];
@@ -56,7 +59,7 @@ const executeMoves = async ({
 }: ExecuteMovesArgs) => {
   for (const { amount, from, to } of moves) {
     if (delay > 0 && variant === 'b') {
-      await sleep(delay * 10);
+      await sleep(delay * 10, { signal: data.controller?.signal });
     }
 
     movesQueue.unshift({ amount, from, to });
@@ -71,7 +74,7 @@ const executeMoves = async ({
     // Execute the move <amount> times
     for (let i = 0; i < amount; i++) {
       if (delay > 0 && variant === 'a') {
-        await sleep(delay * 10);
+        await sleep(delay * 10, { signal: data.controller?.signal });
       }
 
       if (stacks[from].length === 1) {
@@ -90,8 +93,12 @@ type GenerateArgs = {
   moves: string;
 };
 export const start = async ({ delay, moves, stacks, variant }: GenerateArgs) => {
+  data?.controller?.abort();
+
   algorithmState.movesQueue = [];
   algorithmState.stacks = [];
+  algorithmState.running = true;
+  data.controller = new AbortController();
 
   // Parse the stacks
   const parsedStacks: string[][] = [];
@@ -133,7 +140,6 @@ export const start = async ({ delay, moves, stacks, variant }: GenerateArgs) => 
     return;
   }
 
-  algorithmState.running = true;
   await executeMoves({
     delay,
     moves: parsedMoves,
@@ -142,4 +148,11 @@ export const start = async ({ delay, moves, stacks, variant }: GenerateArgs) => 
     variant
   });
   algorithmState.running = false;
+};
+
+export const cancel = () => {
+  data.controller?.abort();
+  algorithmState.running = false;
+  algorithmState.movesQueue = [];
+  algorithmState.stacks = [];
 };
