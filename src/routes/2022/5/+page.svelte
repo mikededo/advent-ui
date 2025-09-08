@@ -2,7 +2,16 @@
     import { onMount } from 'svelte';
     import { scale } from 'svelte/transition';
 
-    import { Button, Header, InputOptions, Slider, SplitInputs, VisualizationHeader } from '$lib/components';
+    import {
+        Button,
+        Header,
+        InputOptions,
+        ShikiCode,
+        Slider,
+        SplitInputs,
+        VisualizationHeader
+    } from '$lib/components';
+    import { BENCHMARK_A, BENCHMARK_B } from '$lib/inputs/2022/bench-5';
 
     import { description } from './metadata';
     import { algorithmState, cancel, start } from './solver.svelte';
@@ -72,11 +81,7 @@
                 first one to be removed. This logic is executed until there are
                 no movements left.
             </p>
-            <p class="italic">
-                Benchmark is still not calculated as I haven&apos;t implemented
-                the solution in rust.
-            </p>
-            <!-- TODO: Solve problem & add benchmark <ShikiCode code={BENCHMARK_A} options={{ lang: 'shellscript' }} /> -->
+            <ShikiCode code={BENCHMARK_A} options={{ lang: 'shellscript' }} />
         </section>
 
         <section>
@@ -98,11 +103,7 @@
                 then have to manually mutate the array, removing the extracted
                 elements.
             </p>
-            <p class="italic">
-                Benchmark is still not calculated as I haven&apos;t implemented
-                the solution in rust.
-            </p>
-            <!-- TODO: Solve problem & add benchmark <ShikiCode code={BENCHMARK_B} options={{ lang: 'shellscript' }} /> -->
+            <ShikiCode code={BENCHMARK_B} options={{ lang: 'shellscript' }} />
         </section>
     {/snippet}
 </Header>
