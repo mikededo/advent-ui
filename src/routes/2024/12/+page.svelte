@@ -1,7 +1,13 @@
 <script lang="ts">
     import { onMount } from 'svelte';
 
-    import { AnimatedNumber, Button, Header, SMWarning } from '$lib/components';
+    import {
+        AnimatedNumber,
+        Button,
+        Header,
+        SMWarning,
+        VisualizationHeader
+    } from '$lib/components';
 
     import {
         algorithmState,
@@ -50,16 +56,15 @@
 </Header>
 
 <section>
-    <h2 class="mb-0 mt-4">Visualization</h2>
-    <div class="mb-4 flex w-full items-center justify-between gap-8 font-semibold">
-        <p class="my-0!">Cost: <AnimatedNumber value={algorithmState.cost} /></p>
+    <VisualizationHeader>
         <Button
             disabled={algorithmState.running}
             onclick={onClick}
         >
             {algorithmState.running ? 'Running' : 'Solve'}
         </Button>
-    </div>
+    </VisualizationHeader>
+    <p class="font-semibold">Cost: <AnimatedNumber value={algorithmState.cost} /></p>
 
     <div id={CONTAINER_ID}></div>
 </section>
