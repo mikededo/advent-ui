@@ -110,11 +110,8 @@
 
 :root {
   --grid-line-width: 1px;
-  --grid-line-gap: 5px;
-  --grid-line-color: #aeaeae;
   --grid-animation-delay: 0;
-
-  --grid-h-line-offset: 150px;
+  --grid-h-line-offset: 64px;
 }
 
 .h-grid-line:after,
@@ -134,7 +131,6 @@
   width: var(--grid-line-width);
   top: 0;
   background: var(--color-slate-200);
-  background-size: var(--grid-line-width) var(--grid-line-gap);
 
   animation-name: vGridEntry;
 }
