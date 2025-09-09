@@ -3,7 +3,7 @@ import perfectionist from 'eslint-plugin-perfectionist';
 import svelteSortAttributes from 'eslint-plugin-svelte-sort-attributes';
 import svelteTailwindcss from 'eslint-plugin-svelte-tailwindcss';
 
-import customRules from './eslint-rules/index.js';
+import customRules from './eslint/index.js';
 
 export default antfu(
   {
