@@ -30,8 +30,7 @@
     {#key data.pathname}
         <div
             class={rootContainer({ isError: Boolean(page.error) })}
-            in:fade={{ delay: 100, duration: 100 }}
-            out:fade={{ duration: 100 }}
+            in:fade={{ duration: 250 }}
         >
             {@render children()}
         </div>

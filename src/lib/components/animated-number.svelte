@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { quadInOut } from 'svelte/easing';
+    import { expoOut } from 'svelte/easing';
     import { Tween } from 'svelte/motion';
     import { tv } from 'tailwind-variants';
 
@@ -11,11 +11,15 @@
     };
 
     const {
+        duration,
         format = (value) => Math.round(value),
         value = 0,
         ...restProps
     }: Props = $props();
-    const animatedValue = new Tween(value, { duration: 100, easing: quadInOut });
+    const animatedValue = new Tween(value, {
+        duration: duration ?? 100,
+        easing: expoOut
+    });
 
     const classes = tv({ base: 'animated-number inline-block font-bold' });
 
