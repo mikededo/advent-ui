@@ -1,3 +1,5 @@
+/// <reference types="vitest" />
+
 import type { Plugin } from 'vite';
 
 import { sveltekit } from '@sveltejs/kit/vite';
@@ -85,6 +87,9 @@ export const solutionsGeneratorPlugin = (): Plugin => ({
 });
 
 export default defineConfig({
-  plugins: [tailwindcss(), sveltekit(), solutionsGeneratorPlugin()]
+  plugins: [tailwindcss(), sveltekit(), solutionsGeneratorPlugin()],
+  test: {
+    globals: true
+  }
 });
 
