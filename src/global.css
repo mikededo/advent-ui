@@ -70,7 +70,7 @@
     background-color: var(--color-slate-100);
     color: var(--color-blue-600);
     font-size: var(--text-sm);
-    padding: calc(var(--spacing) * 0.5) calc(var(--spacing) * 1.5);
+    padding: calc(var(--spacing) * 0.25) calc(var(--spacing) * 1);
   }
 }
 

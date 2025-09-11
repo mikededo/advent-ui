@@ -11,7 +11,7 @@
     {href}
 >
     <p class="my-0! font-semibold">{title}</p>
-    <div class="text-sm">
+    <div class="flex-1 text-sm">
         <!-- eslint-disable-next-line svelte/no-at-html-tags -->
         {@html description}
     </div>

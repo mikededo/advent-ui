@@ -62,6 +62,14 @@ export const SOLUTIONS: Record<number, Year> = {
         'Iterative'
       ],
       title: '5th'
+    },
+    12: {
+      description: 'Find shortest path on a weighted graph, in which weight is elevation.',
+      href: '/2022/12',
+      tags: [
+        'Algorithm'
+      ],
+      title: '12th'
     }
   }
 };
