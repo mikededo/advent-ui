@@ -8,8 +8,9 @@ import { DEFAULT_MAP } from '$lib/inputs/2022/input-12';
 import { COLOR_MAP, getFontStyle, matrixCanvasHelper, sleep } from '$lib/utils';
 import { MinHeap } from '$lib/utils/structs';
 
-type Letters = '^' | '<' | '>' | 'a' | 'b' | 'c' | 'd' | 'e' | 'f' | 'g' | 'h' | 'i' | 'j' | 'k' | 'l' | 'm' | 'n' | 'o' | 'p' | 'q' | 'r' | 's' | 't' | 'u' | 'v' | 'w' | 'x' | 'y' | 'z';
-type Cell = 'E' | 'S' | Letters;
+type Letters = 'a' | 'b' | 'c' | 'd' | 'e' | 'f' | 'g' | 'h' | 'i' | 'j' | 'k' | 'l' | 'm' | 'n' | 'o' | 'p' | 'q' | 'r' | 's' | 't' | 'u' | 'v' | 'w' | 'x' | 'y' | 'z';
+type Cell = '—' | '|' | '┌' | '┐' | '└' | '┘' | 'E' | 'S' | Letters;
+type Direction = 'Down' | 'Left' | 'Right' | 'Up';
 
 export const CONTAINER_ID = 'container';
 const CELL_SIZE = 20;
@@ -17,11 +18,28 @@ const CELL_SIZE = 20;
 const LETTER_COLORS = Array.from(
   { length: 26 },
   (_, i) => String.fromCharCode(97 + i) as Letters
-).reduce((acc, c) => ({ ...acc, [c]: COLOR_MAP.gray }), {
-  '^': COLOR_MAP.gray,
-  '<': COLOR_MAP.gray,
-  '>': COLOR_MAP.gray
-} as Record<Letters, string>);
+).reduce((acc, c) => ({ ...acc, [c]: COLOR_MAP.gray }), {} as Record<Letters, string>);
+const REST_COLORS: Record<Exclude<Cell, Letters>, string> = {
+  '—': COLOR_MAP.gray,
+  '|': COLOR_MAP.gray,
+  '┌': COLOR_MAP.gray,
+  '┐': COLOR_MAP.gray,
+  '└': COLOR_MAP.gray,
+  '┘': COLOR_MAP.gray,
+  E: COLOR_MAP.green,
+  S: COLOR_MAP.indigo
+};
+
+const CORNER_MAP: Record<string, Cell> = {
+  'Down-Left': '┘',
+  'Down-Right': '└',
+  'Left-Down': '┌',
+  'Left-Up': '└',
+  'Right-Down': '┐',
+  'Right-Up': '┘',
+  'Up-Left': '┐',
+  'Up-Right': '┌'
+};
 
 type Data = {
   input?: Cell[][];
@@ -93,18 +111,42 @@ const createGraph = (map: Cell[][]) => {
   return { end, graph, start };
 };
 
-const getDirection = (from: null | Point, to: Point): Cell => {
-  if (!from) {
-    return 'S';
+const getCurrentMove = (dx: number, dy: number): [Cell, Direction] => {
+  if (dx > 0) {
+    return ['|', 'Down'];
   }
-  if (from[0] < to[0]) {
-    return 'v';
+  if (dx < 0) {
+    return ['|', 'Up'];
   }
-  if (from[0] > to[0]) {
-    return '^';
+  if (dy > 0) {
+    return ['—', 'Right'];
   }
 
-  return from[1] < to[1] ? '>' : '<';
+  return ['—', 'Left'];
+};
+
+const getDirection = (
+  current: Point,
+  next: null | Point,
+  direction: Direction | null
+): [Cell, Direction | null] => {
+  if (!next) {
+    return ['E', null];
+  }
+
+  const [cx, cy] = current;
+  const [nx, ny] = next;
+
+  const [char, currDir] = getCurrentMove(nx - cx, ny - cy);
+  if (direction && direction !== currDir) {
+    const cornerChar = CORNER_MAP[`${direction}-${currDir}`];
+
+    if (cornerChar) {
+      return [cornerChar, currDir];
+    }
+  }
+
+  return [char, currDir];
 };
 
 type StartArgs = {
@@ -182,17 +224,23 @@ export const start = async ({
     current = parent.get(getGraphNode(current)) || null;
   }
 
-  let prev: null | Point = null;
+  let prevDirection: Direction | null = null;
   for (let i = 0; i < path.length; i++) {
     const [x, y] = path[i];
-    const direction = i === path.length - 1 ? 'E' : getDirection(prev, path[i]);
+    let [cell, dir]: [Cell, Direction | null] = getDirection(path[i], path[i + 1], prevDirection);
+
+    if (i === path.length - 1) {
+      cell = 'E';
+    }
+
     data.matrix?.fillRect({
-      cell: direction,
+      cell: i === 0 ? 'S' : cell,
       drawOptions: { bgFillStyle: COLOR_MAP.red },
       x,
       y
     });
-    prev = [x, y];
+
+    prevDirection = dir;
     await sleep(10);
   }
 
@@ -223,8 +271,7 @@ export const generateInput = ({ onComplete, ...args }: GenerateArgs = {}) => {
     options: {
       cellColors: {
         ...LETTER_COLORS,
-        E: COLOR_MAP.green,
-        S: COLOR_MAP.indigo
+        ...REST_COLORS
       },
       cellSize: CELL_SIZE,
       cellTextColors: COLOR_MAP.background,
