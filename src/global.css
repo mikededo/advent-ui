@@ -42,8 +42,8 @@
   }
 
   :root {
-    --font-sans: 'IBM Plex Sans';
-    --font-mono: 'IBM Plex Mono';
+    --font-sans: Geist;
+    --font-mono: 'Geist Mono';
   }
 
   html {

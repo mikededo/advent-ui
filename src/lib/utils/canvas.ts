@@ -30,7 +30,7 @@ type MatrixCanvasHelperArgs<Cell extends string> = {
 };
 export type MatrixCanvasHelper<Cell extends string = string> = NonNullable<ReturnType<typeof matrixCanvasHelper<Cell>>>;
 
-export const getFontStyle = (size: number) => `${size}px "IBM Plex Mono", monospace`;
+export const getFontStyle = (size: number) => `${size}px "Geist Mono", monospace`;
 
 export const matrixCanvasHelper = <Cell extends string>(
   { options, root }: MatrixCanvasHelperArgs<Cell>
