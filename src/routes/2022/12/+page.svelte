@@ -1,7 +1,6 @@
 <script lang="ts">
     import {
         AnimatedNumber,
-        Banner,
         Button,
         Header,
         InputOptions,
@@ -28,12 +27,13 @@
         input = value;
     };
 
-    const onSolve = (_: ProblemVariant) => () => {
+    const onSolve = (variant: ProblemVariant) => () => {
         generateInput({
             input,
             onComplete: () => {
-                start({ delay });
-            }
+                start({ delay, variant });
+            },
+            variant
         });
     };
 
@@ -57,13 +57,6 @@
     url="https://github.com/mikededo/advent/blob/main/aoc-22/src/solutions/d12.rs"
 >
     {#snippet description()}
-        <Banner variant="default">
-            I solved this problem using Dijkstra&apos;s algorithm, yet since the
-            graph is not weighted, using <code>BFS</code> would have been a
-            faster solution. I plan on updating the implementation in the
-            future, but in the meantime, I&apos;m going tot keep
-            Dijkstra&apos;s implementation
-        </Banner>
         <section>
             <h2>Problem A</h2>
             <p>
@@ -140,10 +133,10 @@
 
 <section>
     <VisualizationHeader>
-        <Button onclick={onSolve('a')}>
+        <Button disabled={algorithmState.running} onclick={onSolve('a')}>
             {algorithmState.running ? 'Running' : 'Solve A'}
         </Button>
-        <Button disabled onclick={onSolve('b')}>
+        <Button disabled={algorithmState.running} onclick={onSolve('b')}>
             {algorithmState.running ? 'Running' : 'Solve B'}
         </Button>
     </VisualizationHeader>
