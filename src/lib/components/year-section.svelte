@@ -1,5 +1,5 @@
 <script lang="ts">
-    import type { Year } from '$lib/utils';
+    import type { Year } from '$lib/data';
 
     import ProblemCard from './problem-card.svelte';
 
@@ -18,7 +18,7 @@
     style="--grid-animation-delay: calc({position} * 0.15s)"
 >
     <div
-        class="absolute left-0 top-0 z-0 font-mono text-[124px] font-bold leading-none opacity-5 lg:-translate-y-8 lg:text-[240px]"
+        class="absolute -top-2 left-0 z-0 font-mono text-[124px] font-bold leading-none opacity-5 lg:-top-4 lg:text-[240px]"
         aria-hidden={true}
     >
         {year}
