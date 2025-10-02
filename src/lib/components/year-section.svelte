@@ -18,11 +18,11 @@
     style="--grid-animation-delay: calc({position} * 0.15s)"
 >
     <div
-        class="absolute -top-2 left-0 z-0 font-mono text-[124px] font-bold leading-none opacity-5 lg:-top-4 lg:text-[240px]"
-        aria-hidden={true}
-    >
-        {year}
-    </div>
+        class="decorative-year"
+        role="presentation"
+        style="--year: '{year}'"
+        aria-hidden="true"
+    ></div>
     <h2 class="mt-0!">{year}</h2>
     <div class="relative mb-8 grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
         {#each entries as [day, problem](day)}
@@ -31,3 +31,14 @@
     </div>
 </section>
 
+<style>
+@reference "tailwindcss";
+
+.decorative-year {
+    @apply absolute -top-2 left-0 z-0 font-mono text-[124px] font-bold leading-none opacity-5 lg:-top-4 lg:text-[240px];
+
+    &::before{
+        content: var(--year);
+    }
+}
+</style>
