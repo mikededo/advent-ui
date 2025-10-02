@@ -17,6 +17,7 @@
             rel="external"
             target="_blank"
         >
+            <span class="sr-only">GitHub repo</span>
             <GithubIcon class="size-4" strokeWidth={2} />
         </a>
     </nav>
