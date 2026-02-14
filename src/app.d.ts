@@ -1,6 +1,6 @@
 declare global {
-  type Point = [number, number];
-  type ProblemVariant = 'a' | 'b';
+  type Point = [number, number]
+  type ProblemVariant = 'a' | 'b'
 
   namespace App {
     // interface Locals {}
@@ -11,4 +11,4 @@ declare global {
   }
 }
 
-export { };
+export { }

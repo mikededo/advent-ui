@@ -1,14 +1,14 @@
 <script lang="ts">
-    import type { Snippet } from 'svelte';
+    import type { Snippet } from 'svelte'
 
-    import { MoveLeftIcon } from 'lucide-svelte';
+    import { MoveLeftIcon } from 'lucide-svelte'
 
-    type Props = ({ fileName: string; url: string } | { fileName?: never; url?: never }) & {
-        title: string;
-        description: Snippet;
-        problemUrl: string;
-        children?: Snippet;
-    };
+    type Props = ({ fileName: string, url: string } | { fileName?: never, url?: never }) & {
+        title: string
+        description: Snippet
+        problemUrl: string
+        children?: Snippet
+    }
 
     const {
         children,
@@ -17,7 +17,7 @@
         problemUrl,
         title,
         url
-    }: Props = $props();
+    }: Props = $props()
 </script>
 
 <header>

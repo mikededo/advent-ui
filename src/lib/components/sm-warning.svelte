@@ -1,15 +1,15 @@
 <script lang="ts">
-    import { twMerge } from 'tailwind-merge';
+    import { twMerge } from 'tailwind-merge'
 
-    import Banner from './banner.svelte';
+    import Banner from './banner.svelte'
 
     type Props = {
-        notImplemented: boolean;
-        class?: string;
-        mainClass?: string;
-        notImplementedClass?: string;
-    } & { notImplemented: true; recommendedMinWidth?: number };
-    const { notImplemented, recommendedMinWidth, ...restProps }: Props = $props();
+        notImplemented: boolean
+        class?: string
+        mainClass?: string
+        notImplementedClass?: string
+    } & { notImplemented: true, recommendedMinWidth?: number }
+    const { notImplemented, recommendedMinWidth, ...restProps }: Props = $props()
 </script>
 
 <Banner class={twMerge('md:hidden border border-slate-200', !notImplemented && 'mb-4', restProps.class, restProps.mainClass)} header="Small device detected!">

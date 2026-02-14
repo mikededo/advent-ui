@@ -1,16 +1,16 @@
-export { default as AnimatedNumber } from './animated-number.svelte';
-export { default as Banner } from './banner.svelte';
-export { default as Button } from './button.svelte';
-export { default as CookieConsent, DENY_ANALYTICS } from './cookie-consent.svelte';
-export { default as Header } from './header.svelte';
-export { default as InputOptions } from './input-options.svelte';
-export { default as ProblemCard } from './problem-card.svelte';
-export { ShikiCode } from './shiki-code';
-export { default as Slider } from './slider.svelte';
-export { default as SMWarning } from './sm-warning.svelte';
-export { default as SplitInputs } from './split-inputs.svelte';
-export { default as Textarea } from './textarea.svelte';
-export { default as Timer } from './timer.svelte';
-export { default as VGRidLine } from './v-grid-line.svelte';
-export { default as VisualizationHeader } from './visualization-header.svelte';
-export { default as YearSection } from './year-section.svelte';
+export { default as AnimatedNumber } from './animated-number.svelte'
+export { default as Banner } from './banner.svelte'
+export { default as Button } from './button.svelte'
+export { default as CookieConsent, DENY_ANALYTICS } from './cookie-consent.svelte'
+export { default as Header } from './header.svelte'
+export { default as InputOptions } from './input-options.svelte'
+export { default as ProblemCard } from './problem-card.svelte'
+export { ShikiCode } from './shiki-code'
+export { default as Slider } from './slider.svelte'
+export { default as SMWarning } from './sm-warning.svelte'
+export { default as SplitInputs } from './split-inputs.svelte'
+export { default as Textarea } from './textarea.svelte'
+export { default as Timer } from './timer.svelte'
+export { default as VGRidLine } from './v-grid-line.svelte'
+export { default as VisualizationHeader } from './visualization-header.svelte'
+export { default as YearSection } from './year-section.svelte'

@@ -1,15 +1,15 @@
 <script lang="ts">
-    import type { Snippet } from 'svelte';
-    import type { HTMLTextareaAttributes } from 'svelte/elements';
+    import type { Snippet } from 'svelte'
+    import type { HTMLTextareaAttributes } from 'svelte/elements'
 
-    import { twMerge } from 'tailwind-merge';
+    import { twMerge } from 'tailwind-merge'
 
     type Props = {
-        class?: string;
-        ref?: HTMLTextAreaElement;
-        title?: string;
-        options?: Snippet;
-    } & HTMLTextareaAttributes;
+        class?: string
+        ref?: HTMLTextAreaElement
+        title?: string
+        options?: Snippet
+    } & HTMLTextareaAttributes
 
     let {
         options,
@@ -17,13 +17,13 @@
         title,
         value = $bindable(),
         ...restProps
-    }: Props = $props();
+    }: Props = $props()
     const classes = $derived(
         twMerge(
             'resize-none border px-3 py-2 font-mono text-sm outline-hidden ring-2 ring-transparent ring-offset-1 transition-colors duration-150 hover:border-indigo hover:ring-indigo-100 hover:ring-offset-indigo-100 focus:border-indigo-500 focus:ring-indigo-100 focus:ring-offset-indigo-100 md:px-3',
             restProps.class
         )
-    );
+    )
 </script>
 
 <div class="flex items-center justify-between">

@@ -1,4 +1,4 @@
-type ColorKey = keyof typeof COLOR_MAP;
+type ColorKey = keyof typeof COLOR_MAP
 
 export const COLOR_MAP = {
   amber: '#fbbf24',
@@ -19,19 +19,19 @@ export const COLOR_MAP = {
   sky: '#0ea5e9',
   teal: '#2dd4bf',
   yellow: '#facc15'
-};
-export const COLOR_LIST = Object.values(COLOR_MAP);
+}
+export const COLOR_LIST = Object.values(COLOR_MAP)
 
 export const getColorList = (...exclude: ColorKey[]) =>
   Object.entries(COLOR_MAP).reduce(
     (acc: string[], [key, color]) => exclude.includes(key as ColorKey) ? acc : [...acc, color],
     []
-  );
+  )
 
 export const hexToRgb = (hex: string): string => {
-  const bigint = Number.parseInt(hex.slice(1), 16);
-  const r = (bigint >> 16) & 255;
-  const g = (bigint >> 8) & 255;
-  const b = bigint & 255;
-  return `${r}, ${g}, ${b}`;
-};
+  const bigint = Number.parseInt(hex.slice(1), 16)
+  const r = (bigint >> 16) & 255
+  const g = (bigint >> 8) & 255
+  const b = bigint & 255
+  return `${r}, ${g}, ${b}`
+}

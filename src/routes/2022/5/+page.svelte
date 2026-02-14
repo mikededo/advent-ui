@@ -1,6 +1,9 @@
 <script lang="ts">
-    import { onMount } from 'svelte';
-    import { scale } from 'svelte/transition';
+    import { onMount } from 'svelte'
+    import { scale } from 'svelte/transition'
+
+    import { description } from './metadata'
+    import { algorithmState, cancel, start } from './solver.svelte'
 
     import {
         Button,
@@ -10,32 +13,29 @@
         Slider,
         SplitInputs,
         VisualizationHeader
-    } from '$lib/components';
-    import { BENCHMARK_A, BENCHMARK_B } from '$lib/inputs/2022/bench-5';
-
-    import { description } from './metadata';
-    import { algorithmState, cancel, start } from './solver.svelte';
+    } from '$lib/components'
+    import { BENCHMARK_A, BENCHMARK_B } from '$lib/inputs/2022/bench-5'
 
     const inputs = {
         large: { moves: '', stacks: '' },
         small: { moves: '', stacks: '' }
-    };
+    }
 
-    let loadingInputs = $state(true);
-    let stacksInput: HTMLTextAreaElement | undefined = $state();
-    let movesInput: HTMLTextAreaElement | undefined = $state();
+    let loadingInputs = $state(true)
+    let stacksInput: HTMLTextAreaElement | undefined = $state()
+    let movesInput: HTMLTextAreaElement | undefined = $state()
 
-    let delay = $state(30);
+    let delay = $state(30)
 
     const onSelectInput = (_: string, input: 'large' | 'small') => {
         if (input === 'large') {
-            stacksInput!.value = inputs[input].stacks;
-            movesInput!.value = inputs[input].moves;
+            stacksInput!.value = inputs[input].stacks
+            movesInput!.value = inputs[input].moves
         } else {
-            stacksInput!.value = inputs[input].stacks;
-            movesInput!.value = inputs[input].moves;
+            stacksInput!.value = inputs[input].stacks
+            movesInput!.value = inputs[input].moves
         }
-    };
+    }
 
     const onSolve = (variant: ProblemVariant) => () => {
         start({
@@ -43,25 +43,25 @@
             moves: movesInput?.value || inputs.small.moves,
             stacks: stacksInput?.value || inputs.small.stacks,
             variant
-        });
-    };
+        })
+    }
 
     onMount(() => {
         // Inputs are quite heavy and since we don't need them straigh away, we
         // can lazily import them
         import('$lib/inputs/2022/input-5').then((mod) => {
-            loadingInputs = false;
+            loadingInputs = false
 
-            inputs.large.stacks = mod.LARGE_STACKS;
-            inputs.large.moves = mod.LARGE_MOVES;
-            inputs.small.stacks = mod.DEFAULT_STACKS;
-            inputs.small.moves = mod.DEFAULT_MOVES;
-        });
-    });
+            inputs.large.stacks = mod.LARGE_STACKS
+            inputs.large.moves = mod.LARGE_MOVES
+            inputs.small.stacks = mod.DEFAULT_STACKS
+            inputs.small.moves = mod.DEFAULT_MOVES
+        })
+    })
 
     $effect(() => () => {
-        cancel();
-    });
+        cancel()
+    })
 </script>
 
 <svelte:head>

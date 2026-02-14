@@ -1,18 +1,18 @@
 export const BENCHMARK_A = `» cargo build -p aoc-22 --release && hyperfine ./target/release/aoc-22 -N --warmup 5
 Benchmark 1: ./target/release/aoc-22
 Time (mean ± σ):       4.8 ms ±   1.7 ms    [User: 1.1 ms, System: 0.9 ms]
-Range (min … max):     3.1 ms …  18.5 ms    511 runs`;
+Range (min … max):     3.1 ms …  18.5 ms    511 runs`
 
 export const BENCHMARK_B = `» cargo build -p aoc-23 --release && hyperfine ./target/release/aoc-23 -N --warmup 5
 Benchmark 1: ./target/release/aoc-22
 Time (mean ± σ):       8.2 ms ±   4.0 ms    [User: 2.1 ms, System: 1.0 ms]
-Range (min … max):     4.0 ms …  44.3 ms    196 runs`;
+Range (min … max):     4.0 ms …  44.3 ms    196 runs`
 
 export const DEFAULT_MAP = `Sabqponm
 abcryxxl
 accszExk
 acctuvwj
-abdefghi`;
+abdefghi`
 
 export const LARGE_INPUT = `abccccccccccccccccccaaaaaaaaacccccccccccccccccccccccccccccccccccccaaaa
 abcccccccccccccccaaaaaaaaaaacccccccccccccccccccccccccccccccccccccaaaaa
@@ -54,4 +54,4 @@ abccccccccaacaaccccaaaaaacaaaaaaaaaaccccccccccaaaccaaaaccccccccccccccc
 abccccccccaaaaacccaaaaaaaaaaacaaaaccccccccccccaaaccccaaccccccccccaaaca
 abcccccccaaaaaccccaaaaaaaaaaacaaaaacccccccccccaaaccccccccccccccccaaaaa
 abcccccccaaaaaacccaaaaaaaaaacaaaaaacccccccccccaaccccccccccccccccccaaaa
-abcccccccccaaaaccaaaaaaaaaaaaaaccaaccccccccccccccccccccccccccccccaaaaa`;
+abcccccccccaaaaccaaaaaaaaaaaaaaccaaccccccccccccccccccccccccccccccaaaaa`

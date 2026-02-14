@@ -1,16 +1,16 @@
 <script lang="ts">
-    import type { Year } from '$lib/data';
+    import type { Year } from '$lib/data'
 
-    import ProblemCard from './problem-card.svelte';
+    import ProblemCard from './problem-card.svelte'
 
     type Props = {
-        days: Year;
-        year: number;
-        position: number;
-    };
-    const { days, position, year }: Props = $props();
+        days: Year
+        year: number
+        position: number
+    }
+    const { days, position, year }: Props = $props()
 
-    const entries = Object.entries(days);
+    const entries = Object.entries(days)
 </script>
 
 <section

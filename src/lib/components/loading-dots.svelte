@@ -1,22 +1,22 @@
 <script lang="ts">
-    import { onMount } from 'svelte';
+    import { onMount } from 'svelte'
 
-    const DOTS = ['.', '..', '...'];
+    const DOTS = ['.', '..', '...']
 
-    let text = $state('');
+    let text = $state('')
 
     onMount(() => {
-        let index = 0;
+        let index = 0
 
         const interval = setInterval(() => {
-            text = DOTS[index];
-            index = (index + 1) % DOTS.length;
-        }, 250);
+            text = DOTS[index]
+            index = (index + 1) % DOTS.length
+        }, 250)
 
         return () => {
-            clearInterval(interval);
-        };
-    });
+            clearInterval(interval)
+        }
+    })
 </script>
 
 <span>{text}</span>

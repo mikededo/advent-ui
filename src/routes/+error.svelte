@@ -1,14 +1,14 @@
 <script lang="ts">
-    import { onMount } from 'svelte';
+    import { onMount } from 'svelte'
 
-    import { page } from '$app/state';
-    import { AnimatedNumber } from '$lib/components';
+    import { page } from '$app/state'
+    import { AnimatedNumber } from '$lib/components'
 
-    let error = $state(0);
+    let error = $state(0)
 
     onMount(() => {
-        error = page.status;
-    });
+        error = page.status
+    })
 </script>
 
 <svelte:head>

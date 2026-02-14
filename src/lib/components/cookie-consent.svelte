@@ -1,43 +1,43 @@
 <script lang="ts" module>
-    export const DENY_ANALYTICS = 'advent-ui:deny-analytics';
+    export const DENY_ANALYTICS = 'advent-ui:deny-analytics'
 </script>
 
 <script lang="ts">
-    import { onMount } from 'svelte';
-    import { quintOut } from 'svelte/easing';
-    import { fly, slide } from 'svelte/transition';
+    import { onMount } from 'svelte'
+    import { quintOut } from 'svelte/easing'
+    import { fly, slide } from 'svelte/transition'
 
-    import Button from './button.svelte';
+    import Button from './button.svelte'
 
-    let show = $state(false);
-    let knowMore = $state(false);
+    let show = $state(false)
+    let knowMore = $state(false)
 
     onMount(() => {
         if (!window.localStorage) {
-            return;
+            return
         }
 
-        show = window.localStorage.getItem(DENY_ANALYTICS) === null;
-    });
+        show = window.localStorage.getItem(DENY_ANALYTICS) === null
+    })
 
     const onDeny = () => {
         if (window.localStorage) {
-            window.localStorage.setItem(DENY_ANALYTICS, 'true');
+            window.localStorage.setItem(DENY_ANALYTICS, 'true')
         }
-        show = false;
-    };
+        show = false
+    }
 
     const onAccept = () => {
         if (window.localStorage) {
-            window.localStorage.setItem(DENY_ANALYTICS, 'false');
+            window.localStorage.setItem(DENY_ANALYTICS, 'false')
         }
 
-        show = false;
-    };
+        show = false
+    }
 
     const onKnowMore = () => {
-        knowMore = !knowMore;
-    };
+        knowMore = !knowMore
+    }
 </script>
 
 {#if show}

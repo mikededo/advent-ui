@@ -1,5 +1,13 @@
 <script lang="ts">
-    import { useDebounce, watch } from 'runed';
+    import { useDebounce, watch } from 'runed'
+
+    import {
+        algorithmState,
+        CONTAINER_ID,
+        generateInput,
+        reset,
+        start
+    } from './solver.svelte'
 
     import {
         AnimatedNumber,
@@ -12,58 +20,50 @@
 
         VisualizationHeader
 
-    } from '$lib/components';
+    } from '$lib/components'
     import {
         BENCHMARK_A,
         BENCHMARK_B,
         DEFAULT_MAP
-    } from '$lib/inputs/2023/input-10';
-    import { COLOR_MAP } from '$lib/utils';
+    } from '$lib/inputs/2023/input-10'
+    import { COLOR_MAP } from '$lib/utils'
 
-    import {
-        algorithmState,
-        CONTAINER_ID,
-        generateInput,
-        reset,
-        start
-    } from './solver.svelte';
-
-    let input = $state('');
-    let delay = $state(30);
-    let shouldReset = $state(false);
-    let debounceDelay = $state(500);
+    let input = $state('')
+    let delay = $state(30)
+    let shouldReset = $state(false)
+    let debounceDelay = $state(500)
 
     const onSolve = (solution: 'a' | 'b') => () => {
         if (shouldReset) {
             generateInput(input, {
                 onComplete: () => {
-                    start({ delay, solution });
+                    start({ delay, solution })
                 }
-            });
-            return;
+            })
+            return
         }
 
-        start({ delay, solution });
-        shouldReset = true;
-    };
+        start({ delay, solution })
+        shouldReset = true
+    }
 
     const generate = useDebounce(() => {
-        generateInput(input);
-        shouldReset = false;
-        debounceDelay = 500;
-    }, () => debounceDelay);
+        generateInput(input)
+        shouldReset = false
+        debounceDelay = 500
+    }, () => debounceDelay)
 
     watch(() => input, () => {
-        generate();
-    }, { lazy: true });
+        generate()
+    }, { lazy: true })
 
     $effect(() => {
-        generateInput(DEFAULT_MAP);
+        generateInput(DEFAULT_MAP)
 
         return () => {
-            reset();
-        };
-    });
+            reset()
+        }
+    })
 </script>
 
 <svelte:head>

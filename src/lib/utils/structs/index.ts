@@ -1,1 +1,1 @@
-export { MinHeap } from './min-heap';
+export { MinHeap } from './min-heap'

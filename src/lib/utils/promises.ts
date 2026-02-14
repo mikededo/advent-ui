@@ -1,129 +1,129 @@
 type Effects = {
-  onCancel?: (position: number) => void;
-  onComplete?: (position: number) => void;
-  onStart?: (position: number) => void;
-};
+  onCancel?: (position: number) => void
+  onComplete?: (position: number) => void
+  onStart?: (position: number) => void
+}
 
-export type PromiseFactory<T> = (signal: AbortSignal) => Promise<T>;
+export type PromiseFactory<T> = (signal: AbortSignal) => Promise<T>
 
 export type QueueResult<T> = {
-  cancelled: boolean;
-  fulfilled: T[];
-  rejected: Error[];
-  results: (Error | T)[];
-};
+  cancelled: boolean
+  fulfilled: T[]
+  rejected: Error[]
+  results: (Error | T)[]
+}
 
 /**
  * Run a queue of promises in parallel, with cancellation support.
  */
 export class ParallelPromiseQueue<T> {
-  private controller = new AbortController(); // <-- cancellation controller
-  private effects: Effects;
-  private maxParallel: number;
-  private queue: { index: number; factory: PromiseFactory<T> }[];
-  private results: (Error | T)[] = [];
-  private running = new Set<Promise<T>>();
-  private started = 0;
+  private controller = new AbortController() // <-- cancellation controller
+  private effects: Effects
+  private maxParallel: number
+  private queue: { index: number, factory: PromiseFactory<T> }[]
+  private results: (Error | T)[] = []
+  private running = new Set<Promise<T>>()
+  private started = 0
 
   constructor(
     maxParallel: number,
     queue: PromiseFactory<T>[],
     effects: Effects = {}
   ) {
-    this.maxParallel = maxParallel;
-    this.queue = queue.map((factory, index) => ({ factory, index }));
-    this.effects = effects;
+    this.maxParallel = maxParallel
+    this.queue = queue.map((factory, index) => ({ factory, index }))
+    this.effects = effects
   }
 
   /** External API to cancel all remaining/ongoing promises */
   cancel(): void {
-    this.controller.abort();
+    this.controller.abort()
   }
 
   async execute(): Promise<QueueResult<T>> {
     while (this.running.size < this.maxParallel && this.queue.length > 0) {
-      this.startNext();
+      this.startNext()
     }
 
     while (this.running.size > 0) {
-      await Promise.race(this.running);
+      await Promise.race(this.running)
     }
 
-    return this.getResults();
+    return this.getResults()
   }
 
   private getResults(): QueueResult<T> {
-    const fulfilled: T[] = [];
-    const rejected: Error[] = [];
+    const fulfilled: T[] = []
+    const rejected: Error[] = []
 
     this.results.forEach((result) => {
       if (result instanceof Error) {
-        rejected.push(result);
+        rejected.push(result)
       } else {
-        fulfilled.push(result);
+        fulfilled.push(result)
       }
-    });
+    })
 
     return {
       cancelled: this.controller.signal.aborted,
       fulfilled,
       rejected,
       results: this.results
-    };
+    }
   }
 
   private startNext(): void {
     if (this.queue.length === 0 || this.controller.signal.aborted) {
-      return;
+      return
     }
 
-    const { factory, index } = this.queue.shift()!;
-    const position = this.started++;
-    this.effects.onStart?.(position);
+    const { factory, index } = this.queue.shift()!
+    const position = this.started++
+    this.effects.onStart?.(position)
 
     const promise = factory(this.controller.signal)
       .then((result) => {
         if (this.controller.signal.aborted) {
-          const err = new Error('Cancelled');
-          this.results[index] = err;
-          this.effects.onCancel?.(position);
-          return Promise.reject(err);
+          const err = new Error('Cancelled')
+          this.results[index] = err
+          this.effects.onCancel?.(position)
+          return Promise.reject(err)
         }
-        this.results[index] = result;
-        return result;
+        this.results[index] = result
+        return result
       })
       .catch((error) => {
-        const err = error instanceof Error ? error : new Error(String(error));
-        this.results[index] = err;
-        return Promise.reject(err);
+        const err = error instanceof Error ? error : new Error(String(error))
+        this.results[index] = err
+        return Promise.reject(err)
       })
       .finally(() => {
-        this.running.delete(promise);
+        this.running.delete(promise)
         if (!this.controller.signal.aborted) {
-          this.startNext();
-          this.effects.onComplete?.(position);
+          this.startNext()
+          this.effects.onComplete?.(position)
         }
-      });
+      })
 
-    this.running.add(promise);
+    this.running.add(promise)
   }
 }
 
-type Options = { parallel?: number } & Partial<Effects>;
+type Options = { parallel?: number } & Partial<Effects>
 
 export const runParallelQueue = <T>(
   promiseFactories: PromiseFactory<T>[],
   args: Options = {}
 ) => {
-  const { parallel, ...cbs } = args;
+  const { parallel, ...cbs } = args
   const queue = new ParallelPromiseQueue(
     parallel ?? 3,
     promiseFactories,
     cbs
-  );
+  )
 
   return {
     cancel: () => queue.cancel(),
     run: () => queue.execute()
-  };
-};
+  }
+}

@@ -1,15 +1,15 @@
 <script lang="ts">
-    import type { HTMLAttributes } from 'svelte/elements';
-    import type { VariantProps } from 'tailwind-variants';
+    import type { HTMLAttributes } from 'svelte/elements'
+    import type { VariantProps } from 'tailwind-variants'
 
-    import { tv } from 'tailwind-variants';
+    import { tv } from 'tailwind-variants'
 
     type Props = {
-        class?: string;
-        header?: string;
-        variant?: VariantProps<typeof variants>['variant'];
-    } & HTMLAttributes<HTMLDivElement>;
-    const { header, variant = 'default', ...rest }: Props = $props();
+        class?: string
+        header?: string
+        variant?: VariantProps<typeof variants>['variant']
+    } & HTMLAttributes<HTMLDivElement>
+    const { header, variant = 'default', ...rest }: Props = $props()
 
     const variants = tv({
         base: 'px-4 py-3 text-sm',
@@ -25,7 +25,7 @@
                 warning: 'bg-orange-100 text-orange-500'
             }
         }
-    });
+    })
 </script>
 
 <div class={variants({ class: rest.class, variant })}>

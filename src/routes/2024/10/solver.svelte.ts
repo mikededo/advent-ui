@@ -1,35 +1,35 @@
 /* eslint-disable ts/no-use-before-define */
-import type { MatrixCanvasHelper, PromiseFactory } from '$lib/utils';
+import type { MatrixCanvasHelper, PromiseFactory } from '$lib/utils'
 
-import { toast } from 'svelte-sonner';
+import { toast } from 'svelte-sonner'
 
-import { DEFAULT_MAP } from '$lib/inputs/2024/input-10';
+import { DEFAULT_MAP } from '$lib/inputs/2024/input-10'
 import {
   COLOR_MAP,
   runParallelQueue as createParallelQueue,
   getColorList,
   matrixCanvasHelper,
   sleep
-} from '$lib/utils';
+} from '$lib/utils'
 
-export const CONTAINER_ID = 'render-container';
-export const CELL_SIZE = 20;
-export const DEFAULT_DELAY = 50;
+export const CONTAINER_ID = 'render-container'
+export const CELL_SIZE = 20
+export const DEFAULT_DELAY = 50
 
-type Cell = '0' | '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9';
+type Cell = '0' | '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9'
 
 type Data = {
-  delay: number;
-  input: Cell[][];
-  map: number[][];
+  delay: number
+  input: Cell[][]
+  map: number[][]
   /**
    * Whether the problem should track visited or not (part a vs b)
    */
-  trackVisited: boolean;
-  controllers: { exec?: () => void; render?: AbortController };
-  startPoints: Point[];
-  matrix?: MatrixCanvasHelper<Cell>;
-};
+  trackVisited: boolean
+  controllers: { exec?: () => void, render?: AbortController }
+  startPoints: Point[]
+  matrix?: MatrixCanvasHelper<Cell>
+}
 const data: Data = {
   controllers: {},
   delay: DEFAULT_DELAY,
@@ -37,22 +37,22 @@ const data: Data = {
   map: [],
   startPoints: [],
   trackVisited: true
-};
+}
 
 type State = {
-  running: boolean;
-  trails: number;
-  activePoints: Point[];
-};
+  running: boolean
+  trails: number
+  activePoints: Point[]
+}
 export const algorithmState = $state<State>({
   activePoints: [],
   running: false,
   trails: 0
-});
+})
 
-const COLOR_LIST = getColorList('gray', 'indigo', 'background');
+const COLOR_LIST = getColorList('gray', 'indigo', 'background')
 
-const inRange = (x: number, y: number) => data.input[x] !== undefined && data.input[x][y] !== undefined;
+const inRange = (x: number, y: number) => data.input[x] !== undefined && data.input[x][y] !== undefined
 
 const findTrails = async (
   visited: boolean[][],
@@ -62,10 +62,10 @@ const findTrails = async (
   signal: AbortSignal
 ) => {
   if (visited[x][y] && data.trackVisited) {
-    return 0;
+    return 0
   }
 
-  visited[x][y] = true;
+  visited[x][y] = true
   if (depth > 0 && inRange(x, y)) {
     data.matrix!.fillRect({
       cell: data.input[x][y],
@@ -74,15 +74,15 @@ const findTrails = async (
       },
       x,
       y
-    });
-    await sleep(data.delay, { signal });
+    })
+    await sleep(data.delay, { signal })
   }
 
   if (depth === 9) {
-    return 1;
+    return 1
   }
 
-  let count = 0;
+  let count = 0
 
   // Top
   if (x > 0 && data.map[x - 1][y] === depth + 1) {
@@ -92,7 +92,7 @@ const findTrails = async (
       depth + 1,
       iteration,
       signal
-    );
+    )
   }
 
   // Bottom
@@ -103,7 +103,7 @@ const findTrails = async (
       depth + 1,
       iteration,
       signal
-    );
+    )
   }
 
   // Left
@@ -114,7 +114,7 @@ const findTrails = async (
       depth + 1,
       iteration,
       signal
-    );
+    )
   }
 
   // Right
@@ -125,22 +125,22 @@ const findTrails = async (
       depth + 1,
       iteration,
       signal
-    );
+    )
   }
 
-  return count;
-};
+  return count
+}
 
 type StartArgs = {
-  delay?: number;
-  parallel?: number;
-  variant?: ProblemVariant;
-};
+  delay?: number
+  parallel?: number
+  variant?: ProblemVariant
+}
 export const start = async (args: StartArgs = {}) => {
-  data.delay = args.delay ?? data.delay;
-  data.trackVisited = args.variant === 'a';
+  data.delay = args.delay ?? data.delay
+  data.trackVisited = args.variant === 'a'
 
-  algorithmState.running = true;
+  algorithmState.running = true
 
   const trailPromises: PromiseFactory<number>[] = data.startPoints.map((point, i) =>
     (signal) => findTrails(
@@ -153,73 +153,73 @@ export const start = async (args: StartArgs = {}) => {
       i,
       signal
     )
-  );
+  )
 
   const queue = createParallelQueue(trailPromises, {
     onComplete: (pos) => {
-      const active = data.startPoints[pos];
+      const active = data.startPoints[pos]
       if (!active) {
-        return;
+        return
       }
 
-      const [ax, ay] = active;
-      const point = algorithmState.activePoints.findIndex(([px, py]) => px === ax && py === ay);
+      const [ax, ay] = active
+      const point = algorithmState.activePoints.findIndex(([px, py]) => px === ax && py === ay)
       if (point !== -1) {
-        algorithmState.activePoints.splice(point, 1);
+        algorithmState.activePoints.splice(point, 1)
       }
     },
     onStart: (pos) => {
-      const active = data.startPoints[pos];
+      const active = data.startPoints[pos]
       if (!active) {
-        return;
+        return
       }
 
-      algorithmState.activePoints.push(active);
+      algorithmState.activePoints.push(active)
     },
     parallel: args.parallel ?? 1
-  });
+  })
 
   data.controllers.exec = () => {
-    queue.cancel();
-  };
-  const result = await queue.run();
+    queue.cancel()
+  }
+  const result = await queue.run()
 
-  algorithmState.trails = result.fulfilled.reduce((sum, trails) => sum + trails, 0);
-  algorithmState.running = false;
-};
+  algorithmState.trails = result.fulfilled.reduce((sum, trails) => sum + trails, 0)
+  algorithmState.running = false
+}
 
 type GenerateArgs = {
-  onComplete?: () => void;
-};
+  onComplete?: () => void
+}
 export const generateInput = (input: string, args: GenerateArgs = {}) => {
   // Always reset, avoid any issues
-  reset();
+  reset()
 
-  data.controllers.render = new AbortController();
+  data.controllers.render = new AbortController()
 
-  const container = document.getElementById(CONTAINER_ID);
+  const container = document.getElementById(CONTAINER_ID)
   if (!container) {
-    return;
+    return
   }
 
   const parsedInput = (input.trim() ? input : DEFAULT_MAP)
     .split('\n')
     .map((row, x) => {
-      const splitRow = row.split('');
+      const splitRow = row.split('')
       const parsedRow = splitRow.map((v, y) => {
-        const value = Number(v);
+        const value = Number(v)
         if (value === 0) {
-          data.startPoints.push([x, y]);
+          data.startPoints.push([x, y])
         }
 
-        return value;
-      });
+        return value
+      })
 
-      data.map.push(parsedRow);
-      return splitRow as Cell[];
-    });
+      data.map.push(parsedRow)
+      return splitRow as Cell[]
+    })
 
-  data.input = parsedInput;
+  data.input = parsedInput
   data.matrix = matrixCanvasHelper<Cell>({
     options: {
       cellColors: {
@@ -239,34 +239,34 @@ export const generateInput = (input: string, args: GenerateArgs = {}) => {
       input: parsedInput
     },
     root: container
-  });
+  })
   if (!data.matrix) {
-    toast.error('Unable to render the matrix');
-    return;
+    toast.error('Unable to render the matrix')
+    return
   }
 
   data.matrix?.renderMatrix({
     signal: data.controllers.render!.signal,
     ...args
-  });
-};
+  })
+}
 
 export const reset = () => {
-  data.controllers.exec?.();
-  data.controllers.render?.abort();
+  data.controllers.exec?.()
+  data.controllers.render?.abort()
 
-  data.controllers.exec = undefined;
+  data.controllers.exec = undefined
 
   // Clear data
-  data.input = [];
-  data.matrix = undefined;
-  data.map = [];
-  data.startPoints = [];
-  data.delay = DEFAULT_DELAY;
-  data.matrix = undefined;
+  data.input = []
+  data.matrix = undefined
+  data.map = []
+  data.startPoints = []
+  data.delay = DEFAULT_DELAY
+  data.matrix = undefined
 
   // Clear state
-  algorithmState.running = false;
-  algorithmState.trails = 0;
-  algorithmState.activePoints = [];
-};
+  algorithmState.running = false
+  algorithmState.trails = 0
+  algorithmState.activePoints = []
+}

@@ -1,4 +1,7 @@
 <script lang="ts">
+    import { description } from './metadata'
+    import { algorithmState, CONTAINER_ID, generateInput, start } from './solver.svelte'
+
     import {
         AnimatedNumber,
         Button,
@@ -8,41 +11,38 @@
         Slider,
         Textarea,
         VisualizationHeader
-    } from '$lib/components';
+    } from '$lib/components'
     import {
         BENCHMARK_A,
         BENCHMARK_B,
         DEFAULT_MAP,
         LARGE_INPUT
-    } from '$lib/inputs/2022/input-12';
-    import { COLOR_MAP } from '$lib/utils';
+    } from '$lib/inputs/2022/input-12'
+    import { COLOR_MAP } from '$lib/utils'
 
-    import { description } from './metadata';
-    import { algorithmState, CONTAINER_ID, generateInput, start } from './solver.svelte';
-
-    let delay = $state(30);
-    let input = $state('');
+    let delay = $state(30)
+    let input = $state('')
 
     const onSelectInput = (value: string) => {
-        input = value;
-    };
+        input = value
+    }
 
     const onSolve = (variant: ProblemVariant) => () => {
         generateInput({
             input,
             onComplete: () => {
-                start({ delay, variant });
+                start({ delay, variant })
             },
             variant
-        });
-    };
+        })
+    }
 
     $effect(() => {
-        generateInput();
+        generateInput()
         return () => {
         // cancel();
-        };
-    });
+        }
+    })
 </script>
 
 <svelte:head>

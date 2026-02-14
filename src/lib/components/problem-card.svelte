@@ -1,9 +1,9 @@
 <script lang="ts">
-    import type { SolvedVisualization } from '$lib/data';
+    import type { SolvedVisualization } from '$lib/data'
 
-    type Props = { problem: SolvedVisualization };
-    const { problem }: Props = $props();
-    const { description, href, tags, title } = problem;
+    type Props = { problem: SolvedVisualization }
+    const { problem }: Props = $props()
+    const { description, href, tags, title } = problem
 </script>
 
 <a

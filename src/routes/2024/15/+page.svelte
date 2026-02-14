@@ -1,12 +1,7 @@
 <script lang="ts">
-    import type { Cell } from './solver.svelte';
+    import type { Cell } from './solver.svelte'
 
-    import { toast } from 'svelte-sonner';
-
-    import { beforeNavigate } from '$app/navigation';
-    import { Button, Header, ShikiCode, SMWarning, SplitInputs, Timer, VisualizationHeader } from '$lib/components';
-    import { BENCHMARK, DEFAULT_MAP, DEFAULT_MOVEMENTS } from '$lib/inputs/2024/input-15';
-    import { matrixCanvasHelper } from '$lib/utils';
+    import { toast } from 'svelte-sonner'
 
     import {
         algorithmState,
@@ -14,40 +9,45 @@
         CELL_SIZE,
         CELL_TEXT_COLORS,
         runSolver
-    } from './solver.svelte';
+    } from './solver.svelte'
+
+    import { beforeNavigate } from '$app/navigation'
+    import { Button, Header, ShikiCode, SMWarning, SplitInputs, Timer, VisualizationHeader } from '$lib/components'
+    import { BENCHMARK, DEFAULT_MAP, DEFAULT_MOVEMENTS } from '$lib/inputs/2024/input-15'
+    import { matrixCanvasHelper } from '$lib/utils'
 
     const MOVEMENT_PLACEHOLDER = `Default movements are trimmed since the actual input is really long!
 Movements consist of: <^v>...
-You can also generate a set of random movements with the button below.`;
-    const CONTAINER_ID = 'render-container';
+You can also generate a set of random movements with the button below.`
+    const CONTAINER_ID = 'render-container'
 
-    let running: boolean = $state(false);
-    let startTimer = $state(false);
+    let running: boolean = $state(false)
+    let startTimer = $state(false)
 
-    let mapInput: HTMLTextAreaElement | undefined = $state();
+    let mapInput: HTMLTextAreaElement | undefined = $state()
 
-    let movementsInput: HTMLTextAreaElement | undefined = $state();
+    let movementsInput: HTMLTextAreaElement | undefined = $state()
 
     const generateInput = () => {
-        const container = document.getElementById(CONTAINER_ID);
+        const container = document.getElementById(CONTAINER_ID)
         if (!container) {
-            return;
+            return
         }
 
-        running = true;
-        let start: Point = [0, 0];
+        running = true
+        let start: Point = [0, 0]
         const input = (mapInput?.value ? mapInput.value : DEFAULT_MAP)
             .trim()
             .split('\n')
             .map((line, i) => {
-                const res = line.split('');
-                const found = res.findIndex((c) => c === '@');
+                const res = line.split('')
+                const found = res.findIndex((c) => c === '@')
                 if (found > -1) {
-                    start = [i, found];
+                    start = [i, found]
                 }
 
-                return res;
-            }) as Cell[][];
+                return res
+            }) as Cell[][]
         const matrix = matrixCanvasHelper<Cell>({
             options: {
                 cellColors: CELL_COLORS,
@@ -56,33 +56,33 @@ You can also generate a set of random movements with the button below.`;
                 input
             },
             root: container
-        });
+        })
         if (!matrix) {
-            toast.error('Unable to render the matrix');
-            return;
+            toast.error('Unable to render the matrix')
+            return
         }
 
         const movements = (movementsInput?.value ? movementsInput.value : DEFAULT_MOVEMENTS)
             .trim()
             .split('\n')
             .map((s) => s.split(''))
-            .flat();
+            .flat()
         matrix.renderMatrix({
             onComplete: () => {
-                algorithmState.map = input;
-                algorithmState.movements = { executed: 0, left: movements.length };
+                algorithmState.map = input
+                algorithmState.movements = { executed: 0, left: movements.length }
 
-                startTimer = true;
-                runSolver(matrix, start, movements);
+                startTimer = true
+                runSolver(matrix, start, movements)
             }
-        });
-    };
+        })
+    }
 
     beforeNavigate(() => {
-        running = false;
-        algorithmState.cancel = true;
-        algorithmState.movements = { executed: 0, left: 0 };
-    });
+        running = false
+        algorithmState.cancel = true
+        algorithmState.movements = { executed: 0, left: 0 }
+    })
 </script>
 
 <Header

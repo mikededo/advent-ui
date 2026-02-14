@@ -1,8 +1,8 @@
 <script lang="ts">
-    import { GithubIcon } from 'lucide-svelte';
+    import { GithubIcon } from 'lucide-svelte'
 
-    import { YearSection } from '$lib/components';
-    import { SOLUTIONS } from '$lib/data';
+    import { YearSection } from '$lib/components'
+    import { SOLUTIONS } from '$lib/data'
 </script>
 
 <svelte:head>

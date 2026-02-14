@@ -1,30 +1,30 @@
 <script lang="ts">
-    import { LoaderCircle } from 'lucide-svelte';
-    import { fade } from 'svelte/transition';
-    import { twMerge } from 'tailwind-merge';
+    import { LoaderCircle } from 'lucide-svelte'
+    import { fade } from 'svelte/transition'
+    import { twMerge } from 'tailwind-merge'
 
     type Props = ({
         /**
          * Use only when the value is handled from outside the component
          */
-        empty: true;
-        large?: never;
-        small?: never;
+        empty: true
+        large?: never
+        small?: never
     } | {
-        large: string;
-        small: string;
-        empty?: false;
+        large: string
+        small: string
+        empty?: false
     }) & {
-        onSelect: (value: string, type: 'large' | 'small') => void;
-        class?: string;
-        loading?: boolean;
+        onSelect: (value: string, type: 'large' | 'small') => void
+        class?: string
+        loading?: boolean
 
-    };
-    const { empty, large, loading, onSelect, small, ...rest }: Props = $props();
+    }
+    const { empty, large, loading, onSelect, small, ...rest }: Props = $props()
 
     const onInputClick = (valueType: 'large' | 'small') => () => {
-        onSelect(empty ? '' : valueType === 'large' ? large : small, valueType);
-    };
+        onSelect(empty ? '' : valueType === 'large' ? large : small, valueType)
+    }
 </script>
 
 <div class={twMerge('flex items-center gap-4 text-sm font-medium', rest.class)}>

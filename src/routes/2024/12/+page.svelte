@@ -1,5 +1,12 @@
 <script lang="ts">
-    import { onMount } from 'svelte';
+    import { onMount } from 'svelte'
+
+    import {
+        algorithmState,
+        CONTAINER_ID,
+        generateInput,
+        start
+    } from './solver.svelte'
 
     import {
         AnimatedNumber,
@@ -7,22 +14,15 @@
         Header,
         SMWarning,
         VisualizationHeader
-    } from '$lib/components';
-
-    import {
-        algorithmState,
-        CONTAINER_ID,
-        generateInput,
-        start
-    } from './solver.svelte';
+    } from '$lib/components'
 
     const onClick = () => {
-        start();
-    };
+        start()
+    }
 
     onMount(() => {
-        generateInput();
-    });
+        generateInput()
+    })
 </script>
 
 <svelte:head>

@@ -1,10 +1,10 @@
 <script lang="ts">
-    import type { SliderRootProps } from 'bits-ui';
+    import type { SliderRootProps } from 'bits-ui'
 
-    import { Slider } from 'bits-ui';
+    import { Slider } from 'bits-ui'
 
-    type Props = { label?: string } & Pick<SliderRootProps, 'max' | 'min' | 'step' | 'value'>;
-    let { label, value = $bindable(), ...rootProps }: Props = $props();
+    type Props = { label?: string } & Pick<SliderRootProps, 'max' | 'min' | 'step' | 'value'>
+    let { label, value = $bindable(), ...rootProps }: Props = $props()
 </script>
 
 <Slider.Root

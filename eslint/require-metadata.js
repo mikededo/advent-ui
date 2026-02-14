@@ -1,9 +1,9 @@
 /* eslint-disable jsdoc/require-returns-description */
 // @ts-check
 
-import { Result } from 'neverthrow';
-import fs from 'node:fs';
-import path from 'node:path';
+import { Result } from 'neverthrow'
+import fs from 'node:fs'
+import path from 'node:path'
 
 /** @typedef {import('eslint').Rule.RuleContext} RuleContext */
 /** @typedef {import('eslint').Rule.RuleModule} RuleModule */
@@ -13,13 +13,13 @@ const REQUIRED_EXPORTS = {
   description: 'string',
   tags: 'array',
   title: 'string'
-};
+}
 
 const EXPORT_PATTERNS = {
   description: /export\s+(?:const\s+)?description\s*[=:]\s*['"`].*?['"`]/,
   tags: /export\s+(?:const\s+)?tags\s*[=:]\s*\[.*?\]/s,
   title: /export\s+(?:const\s+)?title\s*[=:]\s*['"`].*?['"`]/
-};
+}
 
 /**
  * Check if metadata exports are present and valid
@@ -29,23 +29,23 @@ const EXPORT_PATTERNS = {
  */
 const checkMetadataExports = (context, node, content) => {
   for (const exportName of Object.keys(REQUIRED_EXPORTS)) {
-    const pattern = EXPORT_PATTERNS[exportName];
+    const pattern = EXPORT_PATTERNS[exportName]
 
     if (!pattern.test(content)) {
       context.report({
         data: { export: exportName },
         messageId: 'missingExport',
         node
-      });
+      })
     }
   }
 
-  const tagsMatch = content.match(/export\s+(?:const\s+)?tags\s*[=:]\s*(\[.*?\])/s);
+  const tagsMatch = content.match(/export\s+(?:const\s+)?tags\s*[=:]\s*(\[.*?\])/s)
   if (tagsMatch) {
-    const tagsArray = tagsMatch[1];
+    const tagsArray = tagsMatch[1]
 
     // Check if array contains only strings
-    const stringArrayPattern = /^\[\s*(?:'[^']*'|"[^"]*"|`[^`]*`)\s*(?:,\s*(?:'[^']*'|"[^"]*"|`[^`]*`)\s*)*\]$/;
+    const stringArrayPattern = /^\[\s*(?:'[^']*'|"[^"]*"|`[^`]*`)\s*(?:,\s*(?:'[^']*'|"[^"]*"|`[^`]*`)\s*)*\]$/
     if (!stringArrayPattern.test(tagsArray.replace(/\s*\n\s*/g, ' '))) {
       context.report({
         data: {
@@ -55,10 +55,10 @@ const checkMetadataExports = (context, node, content) => {
         },
         messageId: 'invalidExportType',
         node
-      });
+      })
     }
   }
-};
+}
 
 /**
  * Check if a directory follows the routes/[year]/[day] pattern
@@ -66,26 +66,26 @@ const checkMetadataExports = (context, node, content) => {
  * @returns {boolean}
  */
 const isRoutesYearDayPattern = (dirPath) => {
-  const normalizedPath = path.normalize(dirPath);
-  const pathParts = normalizedPath.split(path.sep);
+  const normalizedPath = path.normalize(dirPath)
+  const pathParts = normalizedPath.split(path.sep)
 
-  const routesIndex = pathParts.findIndex((part) => part === 'routes');
+  const routesIndex = pathParts.findIndex((part) => part === 'routes')
   if (routesIndex === -1) {
-    return false;
+    return false
   }
 
   if (pathParts.length < routesIndex + 3) {
-    return false;
+    return false
   }
 
-  const yearPart = pathParts[routesIndex + 1];
-  const dayPart = pathParts[routesIndex + 2];
+  const yearPart = pathParts[routesIndex + 1]
+  const dayPart = pathParts[routesIndex + 2]
 
-  const yearPattern = /^\d{4}$/;
-  const dayPattern = /^\d{1,2}$/;
+  const yearPattern = /^\d{4}$/
+  const dayPattern = /^\d{1,2}$/
 
-  return yearPattern.test(yearPart) && dayPattern.test(dayPart);
-};
+  return yearPattern.test(yearPart) && dayPattern.test(dayPart)
+}
 
 /** @type {RuleModule} */
 export const requireMetadata = {
@@ -108,30 +108,30 @@ export const requireMetadata = {
   create(context) {
     return {
       Program(node) {
-        const dirname = path.dirname(context.filename);
+        const dirname = path.dirname(context.filename)
 
         if (!isRoutesYearDayPattern(dirname)) {
-          return;
+          return
         }
 
-        const pathParts = dirname.split(path.sep);
-        const routesIndex = pathParts.findIndex((part) => part === 'routes');
-        const year = pathParts[routesIndex + 1];
-        const day = pathParts[routesIndex + 2];
+        const pathParts = dirname.split(path.sep)
+        const routesIndex = pathParts.findIndex((part) => part === 'routes')
+        const year = pathParts[routesIndex + 1]
+        const day = pathParts[routesIndex + 2]
 
-        const metadataPath = path.join(dirname, 'metadata.ts');
+        const metadataPath = path.join(dirname, 'metadata.ts')
 
         if (!fs.existsSync(metadataPath)) {
           context.report({
             data: { day, year },
             messageId: 'missingFile',
             node
-          });
-          return;
+          })
+          return
         }
 
-        const safeReadFile = Result.fromThrowable(fs.readFileSync, () => null);
-        const metadataContent = safeReadFile(metadataPath, 'utf-8');
+        const safeReadFile = Result.fromThrowable(fs.readFileSync, () => null)
+        const metadataContent = safeReadFile(metadataPath, 'utf-8')
 
         if (metadataContent.isErr()) {
           // If we can't read the file, report it as missing
@@ -139,12 +139,12 @@ export const requireMetadata = {
             data: { day, year },
             messageId: 'missingFile',
             node
-          });
-          return;
+          })
+          return
         }
 
-        checkMetadataExports(context, node, metadataContent.value.toString());
+        checkMetadataExports(context, node, metadataContent.value.toString())
       }
-    };
+    }
   }
-};
+}

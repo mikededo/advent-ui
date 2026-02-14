@@ -1,17 +1,17 @@
 <script lang="ts">
-    import './shiki-code.css';
+    import './shiki-code.css'
 
-    import type { codeToHtml, Highlighter } from 'shiki';
+    import type { codeToHtml, Highlighter } from 'shiki'
 
-    import { getContext } from 'svelte';
+    import { getContext } from 'svelte'
 
-    type CodeToHtml = Parameters<typeof codeToHtml>;
+    type CodeToHtml = Parameters<typeof codeToHtml>
     type Props = {
-        code: CodeToHtml[0];
-        options: { lang: CodeToHtml[1]['lang'] } & Partial<CodeToHtml[1]>;
-    };
-    const { code, options }: Props = $props();
-    const highlighter = getContext<Highlighter>('shiki');
+        code: CodeToHtml[0]
+        options: { lang: CodeToHtml[1]['lang'] } & Partial<CodeToHtml[1]>
+    }
+    const { code, options }: Props = $props()
+    const highlighter = getContext<Highlighter>('shiki')
 </script>
 
 <div class="shiki-wrapper my-4 px-5 py-3 text-sm">

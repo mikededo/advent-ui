@@ -1,11 +1,11 @@
 export const DEFAULT_STACKS = `    [D]    
 [N] [C]    
 [Z] [M] [P]
- 1   2   3 `;
+ 1   2   3 `
 export const DEFAULT_MOVES = `move 1 from 2 to 1
 move 3 from 1 to 3
 move 2 from 2 to 1
-move 1 from 1 to 2`;
+move 1 from 1 to 2`
 
 export const LARGE_STACKS = `[N]     [C]                 [Q]    
 [W]     [J] [L]             [J] [V]
@@ -15,7 +15,7 @@ export const LARGE_STACKS = `[N]     [C]                 [Q]
 [S] [Q] [V] [P] [S] [F] [D] [R] [S]
 [M] [P] [R] [Z] [P] [D] [N] [N] [M]
 [D] [W] [W] [F] [T] [H] [Z] [W] [R]
- 1   2   3   4   5   6   7   8   9 `;
+ 1   2   3   4   5   6   7   8   9 `
 
 export const LARGE_MOVES = `move 1 from 3 to 9
 move 3 from 5 to 3
@@ -520,4 +520,4 @@ move 15 from 9 to 7
 move 1 from 5 to 1
 move 9 from 8 to 2
 move 10 from 9 to 3
-move 8 from 2 to 6`;
+move 8 from 2 to 6`

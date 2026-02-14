@@ -2,13 +2,13 @@ export const BENCHMARK_A = `» cargo build -p aoc-24 --release && hyperfine ./ta
 Benchmark 1: ./target/release/aoc-24
 Time (mean ± σ):       6.2 ms ±   3.8 ms    [User: 1.4 ms, System: 1.1 ms]
 Range (min … max):     3.7 ms …  37.4 ms    532 runs
-`;
+`
 
 export const BENCHMARK_B = `» cargo build -p aoc-24 --release && hyperfine ./target/release/aoc-24 -N --warmup 5
 Benchmark 1: ./target/release/aoc-24
 Time (mean ± σ):       8.2 ms ±   5.7 ms    [User: 1.4 ms, System: 1.2 ms]
 Range (min … max):     4.1 ms …  40.7 ms    455 runs
-`;
+`
 
 export const DEFAULT_MAP = `89010123
 78121874
@@ -17,7 +17,7 @@ export const DEFAULT_MAP = `89010123
 45678903
 32019012
 01329801
-10456732`;
+10456732`
 
 export const LARGE_INPUT = `21056789894321015012980123498787601045687
 32346543765601156703474544567896012138796
@@ -59,5 +59,5 @@ export const LARGE_INPUT = `21056789894321015012980123498787601045687
 49545459810170301075674654323454458989032
 30432365923965432165463210498569567976543
 21021876854876523678354112347678678875301
-30010966763987014589210001456565589765432`;
+30010966763987014589210001456565589765432`
 

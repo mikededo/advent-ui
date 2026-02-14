@@ -1,5 +1,14 @@
 <script lang="ts">
-    import { useDebounce, watch } from 'runed';
+    import { useDebounce, watch } from 'runed'
+
+    import {
+        algorithmState,
+        CONTAINER_ID,
+        DEFAULT_DELAY,
+        generateInput,
+        reset,
+        start
+    } from './solver.svelte'
 
     import {
         AnimatedNumber,
@@ -13,60 +22,51 @@
 
         VisualizationHeader
 
-    } from '$lib/components';
-    import { BENCHMARK_A, BENCHMARK_B, DEFAULT_MAP, LARGE_INPUT } from '$lib/inputs/2024/input-10';
-    import { COLOR_MAP } from '$lib/utils';
+    } from '$lib/components'
+    import { BENCHMARK_A, BENCHMARK_B, DEFAULT_MAP, LARGE_INPUT } from '$lib/inputs/2024/input-10'
+    import { COLOR_MAP } from '$lib/utils'
 
-    import {
-        algorithmState,
-        CONTAINER_ID,
-        DEFAULT_DELAY,
-        generateInput,
-        reset,
-        start
-    } from './solver.svelte';
-
-    let input = $state('');
-    let delay = $state(DEFAULT_DELAY);
-    let parallel = $state(1);
-    let debounceDelay = $state(500);
-    let shouldReset = $state(false);
+    let input = $state('')
+    let delay = $state(DEFAULT_DELAY)
+    let parallel = $state(1)
+    let debounceDelay = $state(500)
+    let shouldReset = $state(false)
 
     const onSolve = (variant: ProblemVariant) => () => {
         if (shouldReset) {
             generateInput(input, {
                 onComplete: () => {
-                    start({ delay, parallel });
+                    start({ delay, parallel })
                 }
-            });
-            return;
+            })
+            return
         }
 
-        start({ delay, parallel, variant });
-    };
+        start({ delay, parallel, variant })
+    }
 
     const onSelectInput = (value: string) => {
-        debounceDelay = 0;
-        input = value;
-    };
+        debounceDelay = 0
+        input = value
+    }
 
     const generate = useDebounce(() => {
-        generateInput(input);
-        shouldReset = false;
-        debounceDelay = 500;
-    }, () => debounceDelay);
+        generateInput(input)
+        shouldReset = false
+        debounceDelay = 500
+    }, () => debounceDelay)
 
     watch(() => input, () => {
-        generate();
-    }, { lazy: true });
+        generate()
+    }, { lazy: true })
 
     $effect(() => {
-        generateInput(DEFAULT_MAP);
+        generateInput(DEFAULT_MAP)
 
         return () => {
-            reset();
-        };
-    });
+            reset()
+        }
+    })
 </script>
 
 <svelte:head>

@@ -1,21 +1,21 @@
 <script lang="ts">
-    import type { Snippet } from 'svelte';
+    import type { LayoutData } from './$types'
 
-    import '../global.css';
+    import '../global.css'
 
-    import type { LayoutData } from './$types';
+    import type { Snippet } from 'svelte'
 
-    import { setContext } from 'svelte';
-    import { fade } from 'svelte/transition';
-    import { tv } from 'tailwind-variants';
+    import { setContext } from 'svelte'
+    import { fade } from 'svelte/transition'
+    import { tv } from 'tailwind-variants'
 
-    import { page } from '$app/state';
-    import { CookieConsent, VGRidLine } from '$lib/components';
+    import { page } from '$app/state'
+    import { CookieConsent, VGRidLine } from '$lib/components'
 
-    type Props = { children: Snippet; data: LayoutData };
-    const { children, data }: Props = $props();
+    type Props = { children: Snippet, data: LayoutData }
+    const { children, data }: Props = $props()
 
-    setContext('shiki', data.shiki);
+    setContext('shiki', data.shiki)
 
     const rootContainer = tv({
         variants: {
@@ -23,7 +23,7 @@
                 true: 'my-auto'
             }
         }
-    });
+    })
 </script>
 
 <main class="container relative flex min-h-[calc(100vh-48px)] flex-col overflow-hidden bg-white px-8 py-8">

@@ -1,5 +1,5 @@
 // @ts-check
 
-import { requireMetadata } from './require-metadata.js';
+import { requireMetadata } from './require-metadata.js'
 
-export default { rules: { 'require-metadata': requireMetadata } };
+export default { rules: { 'require-metadata': requireMetadata } }
