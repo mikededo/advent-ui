@@ -1,16 +1,10 @@
-import antfu from '@antfu/eslint-config';
-import perfectionist from 'eslint-plugin-perfectionist';
-import svelteSortAttributes from 'eslint-plugin-svelte-sort-attributes';
-import svelteTailwindcss from 'eslint-plugin-svelte-tailwindcss';
-
-import customRules from './eslint/index.js';
+import antfu from '@antfu/eslint-config'
+import betterTailwindcss from 'eslint-plugin-better-tailwindcss'
+import perfectionist from 'eslint-plugin-perfectionist'
 
 export default antfu(
   {
-    formatters: {
-      css: true,
-      html: true
-    },
+    formatters: false,
     ignores: [
       '!.env.example',
       '.DS_Store',
@@ -19,6 +13,7 @@ export default antfu(
       '**/*/.svelte-kit',
       '.vercel',
       '**/*/src/app.html',
+      'src/app.html',
       '**/*/build/',
       '**/*/dist/',
       'node_modules/',
@@ -26,6 +21,7 @@ export default antfu(
       'postcss.config.js',
       'tsconfig.tsbuildinfo'
     ],
+    isInEditor: false,
     jsonc: false,
     lessOpinionated: true,
     markdown: false,
@@ -36,7 +32,7 @@ export default antfu(
     stylistic: {
       indent: 2,
       quotes: 'single',
-      semi: true
+      semi: false
     },
     svelte: true,
     toml: false,
@@ -85,67 +81,15 @@ export default antfu(
     rules: { 'ts/consistent-type-definitions': ['off'] }
   },
   {
-    files: ['**/*.html'],
-    rules: { 'style/indent': ['error', 4] }
-  },
-  {
-    files: ['**/*.svelte.ts'],
+    ...betterTailwindcss.configs['stylistic-error'],
     rules: {
-      'style/indent': ['error', 2],
-      'svelte/indent': ['off']
-    }
-  },
-  {
-    plugins: { 'svelte-tailwindcss': svelteTailwindcss },
-    rules: {
-      'svelte-tailwindcss/sort-classes': ['error', {
+      'better-tailwindcss/enforce-consistent-line-wrapping': 'off'
+    },
+    settings: {
+      'better-tailwindcss': {
         callees: ['tv'],
-        config: './src/app.css',
-        removeDuplicates: true
-      }]
-    }
-  },
-  {
-    plugins: { 'svelte-sort-attributes': svelteSortAttributes },
-    rules: {
-      'svelte-sort-attributes/sort-attributes': [
-        'error',
-        {
-          customGroups: {
-            aria: 'aria-*',
-            'bind-directives': 'bind:*',
-            'bind-this': 'bind:this',
-            class: 'class',
-            data: 'data-*',
-            effects: 'on*',
-            'style-props': '--style-props',
-            this: 'this',
-            'use-directives': 'use:*'
-          },
-          groups: [
-            ['this', 'bind-this'],
-            'style-props',
-            'class',
-            ['bind-directives', 'use-directives'],
-            'unknown',
-            ['shorthand', 'svelte-shorthand'],
-            'effects',
-            'aria',
-            'data',
-            'multiline'
-          ],
-          ignoreCase: true,
-          order: 'asc',
-          type: 'alphabetical'
-        }
-      ]
-    }
-  },
-  {
-    files: ['./src/routes/**/*.{svelte,ts}'],
-    plugins: { 'advent-ui': customRules },
-    rules: {
-      'advent-ui/require-metadata': 'error'
+        entryPoint: './src/app.css'
+      }
     }
   }
 )
@@ -171,12 +115,10 @@ export default antfu(
           overrides: { ':': 'before', '?': 'before' }
         }
       ],
-      'style/quote-props': ['error', 'as-needed'],
-      'style/quotes': ['error', 'single', { avoidEscape: true }]
+      'style/quote-props': ['error', 'as-needed']
     }
   })
   .override('antfu/svelte/rules', {
-    files: ['**/*.svelte'],
     ignores: ['**/*.svelte.ts'],
     rules: {
       'style/indent-binary-ops': ['error', 4],
@@ -208,36 +150,21 @@ export default antfu(
           groups: [
             'style',
             'type',
-            'internal-type',
-            ['parent-type', 'sibling-type', 'index-type'],
-
             ['builtin', 'external'],
-            'internal',
             ['parent', 'sibling', 'index'],
-            'object',
+            'internal',
             'unknown'
           ],
           ignoreCase: true,
           internalPattern: ['\\$[^\\/]+\\/[^\\/]+'],
           maxLineLength: undefined,
-          newlinesBetween: 'always',
+          newlinesBetween: 1,
           order: 'asc',
           type: 'alphabetical'
         }
       ],
       'perfectionist/sort-modules': 'off',
-      'perfectionist/sort-object-types': [
-        'error',
-        {
-          customGroups: { callbacks: 'on*' },
-          groupKind: 'required-first',
-          groups: ['unknown', 'callbacks', 'multiline'],
-          ignoreCase: true,
-          order: 'asc',
-          partitionByNewLine: true,
-          type: 'alphabetical'
-        }
-      ],
+      'perfectionist/sort-object-types': 'off',
       'perfectionist/sort-objects': [
         'error',
         {
@@ -246,4 +173,4 @@ export default antfu(
         }
       ]
     }
-  });
+  })
