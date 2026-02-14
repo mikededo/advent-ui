@@ -10,7 +10,7 @@
     }
     const { days, position, year }: Props = $props()
 
-    const entries = Object.entries(days)
+    const entries = $derived(Object.entries(days))
 </script>
 
 <section

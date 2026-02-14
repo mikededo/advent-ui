@@ -8,7 +8,7 @@ import tailwindcss from '@tailwindcss/vite'
 import colors from 'kleur'
 import { writeFile } from 'node:fs/promises'
 import { join } from 'node:path'
-import { defineConfig } from 'vite'
+import { defineConfig } from 'vitest/config'
 
 import { generateSolutions, generateSolutionsFileContent } from './scripts/build-solutions'
 
